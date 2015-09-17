@@ -48,5 +48,29 @@ var store = window.App.Page.store = Reflux.createStore({
     },
     onSetStepArgs: function (stepIndex, newArgs) {
         this._setSteps(this._steps.setIn([stepIndex, 'args'], newArgs));
+    },
+    onMoveStepUp: function (stepIndex) {
+        if (stepIndex < 1) { return; }
+
+        this._setSteps(this._steps.update(newSteps => {
+            var firstStep = newSteps.get(stepIndex - 1),
+                secondStep = newSteps.get(stepIndex);
+
+            return newSteps.set(stepIndex - 1, secondStep).set(stepIndex, firstStep);
+        }));
+    },
+    onMoveStepDown: function (stepIndex) {
+        var steps = this._steps;
+
+        console.log(steps.size);
+
+        if (stepIndex > steps.size - 2) { return; }
+
+        this._setSteps(steps.update(newSteps => {
+            var firstStep = newSteps.get(stepIndex),
+                secondStep = newSteps.get(stepIndex + 1);
+
+            return newSteps.set(stepIndex, secondStep).set(stepIndex + 1, firstStep);
+        }));
     }
 });

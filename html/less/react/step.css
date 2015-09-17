@@ -1,24 +1,25 @@
 .ui-step {
-    border: solid 1px #CCC;
-    margin: 10px 0;
+    color: #333;
+    display: inline-block;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 16px;
 
-    .title {
-        background-color: #999;
+    input[type="number"],
+    input[type="text"] {
+        background-color: #CCC;
+        border: 0;
         color: White;
-        font-weight: bold;
-        padding: 4px 8px;
+        outline: 0;
+        padding: 0 .2em;
+        width: 250px;
+
+        &:focus {
+            background-color: #666;
+            color: White;
+        }
     }
 
-    table {
-        margin-bottom: 0;
-
-        tbody tr td {
-            vertical-align: middle;
-
-            textarea {
-                font-family: Consolas, 'Courier New', monospace;
-                height: 5em;
-            }
-        }
+    .argument {
+        padding-left: 1em;
     }
 }

@@ -1,8 +1,12 @@
-ul {
-    list-style-type: none;
-    padding: 0;
+#root {
+    margin: 1em;
 
-    > li > button {
-        margin-right: .4em;
+    ul {
+        list-style-type: none;
+        padding: 0;
+
+        > li > button {
+            margin-right: .4em;
+        }
     }
 }

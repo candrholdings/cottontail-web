@@ -1,5 +1,42 @@
 .ui-steplist {
-    button {
-        margin-right: .5em;
+    margin-top: .5em;
+
+    .code {
+        color: #333;
+        font-family: @codeFontFamily;
+        font-size: 24px;
+    }
+
+    table {
+        width: 100%;
+
+        tbody {
+            background-color: #F7F7F7;
+
+            tr:nth-child(2n) {
+                background-color: #E0E0E0;
+            }
+
+            tr td {
+                padding: 1em;
+            }
+        }
+    }
+
+    .button-bar {
+        padding-right: .5em;
+
+        button {
+            background-color: Transparent;
+            border: 0;
+            color: #CCC;
+            cursor: pointer;
+            margin: 0;
+            padding: .5em;
+
+            &:hover {
+                color: #333;
+            }
+        }
     }
 }

@@ -21,6 +21,12 @@ var Page = local.Page = React.createClass({
     onStepRemove: function (removedStepIndex) {
         Actions.removeStep(removedStepIndex);
     },
+    onStepMoveUp: function (stepIndex) {
+        Actions.moveStepUp(stepIndex);
+    },
+    onStepMoveDown: function (stepIndex) {
+        Actions.moveStepDown(stepIndex);
+    },
     onPlayClick: function () {
         var newSteps = [];
 
@@ -57,16 +63,19 @@ var Page = local.Page = React.createClass({
         return (
             <div className="container">
                 <div className="row">
-                    <div className="col-md-6">
-                        <h1>Commands</h1>
+                    <div className="col-md-2">
                         <UI.CommandList onCommandClick={that.onCommandClick} />
                     </div>
-                    <div className="col-md-6">
-                        <h1>Steps</h1>
+                    <div className="col-md-5">
                         <button className="btn" onClick={that.onPlayClick}>Play <span className="glyphicon glyphicon-play" /></button>
                         <UI.StepList onStepChange={that.onStepChange}
+                                     onStepMoveDown={that.onStepMoveDown}
+                                     onStepMoveUp={that.onStepMoveUp}
                                      onStepRemove={that.onStepRemove}
                                      steps={state.steps} />
+                    </div>
+                    <div className="col-md-5">
+                        <UI.CodeView steps={state.steps} />
                     </div>
                 </div>
             </div>

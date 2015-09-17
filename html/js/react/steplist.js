@@ -30,23 +30,29 @@
 
             return (
                 <div className="ui-steplist">
-                    {
-                        props.steps.map((step, index) => {
-                            return (
-                                <div key={index}>
-                                    <UI.Step args={step.get('args')}
-                                             commandName={step.get('commandName')}
-                                             onChange={that.onStepChange.bind(null, index)} />
-                                    <button className="btn"
-                                            onClick={that.onStepRemove.bind(null, index)}>Remove</button>
-                                    <button className="btn"
-                                            onClick={that.onStepMoveUp.bind(null, index)}>Move up</button>
-                                    <button className="btn"
-                                            onClick={that.onStepMoveDown.bind(null, index)}>Move down</button>
-                                </div>
-                            );
-                        })
-                    }
+                    <div className="code">require('webdriverio')</div>
+                    <table>
+                        <tbody>
+                            {
+                                props.steps.map((step, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td className="button-bar">
+                                                <button onClick={that.onStepRemove.bind(null, index)} tabIndex={-1}><span className="glyphicon glyphicon-remove" /></button>
+                                                <button onClick={that.onStepMoveUp.bind(null, index)} tabIndex={-1}><span className="glyphicon glyphicon-triangle-top" /></button>
+                                                <button onClick={that.onStepMoveDown.bind(null, index)} tabIndex={-1}><span className="glyphicon glyphicon-triangle-bottom" /></button>
+                                            </td>
+                                            <td>
+                                                <UI.Step args={step.get('args')}
+                                                         commandName={step.get('commandName')}
+                                                         onChange={that.onStepChange.bind(null, index)} />
+                                            </td>
+                                        </tr>
+                                    );
+                                })
+                            }
+                        </tbody>
+                    </table>
                 </div>
             );
         }

@@ -31,48 +31,49 @@
 
             return (
                 <div className="ui-step">
-                    <div className="title">{commandName}</div>
-                    {
-                        !!command &&
-                            <table className="table">
-                                <tbody>
-                                    {
-                                        parameters.map((parameter, index) => {
-                                            var name, 
-                                                type = 'string';
+                    <span className="name">.{commandName}</span>
+                    <span>(</span>
+                        {
+                            !!command && parameters.map((parameter, index) => {
+                                var name, 
+                                    type = 'string';
 
-                                            if (typeof parameter === 'string') {
-                                                name = parameter;
-                                            } else {
-                                                name = parameter.name;
-                                                type = parameter.type;
-                                            }
+                                if (typeof parameter === 'string') {
+                                    name = parameter;
+                                } else {
+                                    name = parameter.name;
+                                    type = parameter.type;
+                                }
 
-                                            var value = args.get(name);
+                                var value = args.get(name);
 
-                                            return (
-                                                <tr key={index}>
-                                                    <td>{name}</td>
-                                                    <td>
-                                                        {
-                                                            type === 'json' ?
-                                                                <textarea className="form-control"
-                                                                          disabled={true}
-                                                                          value={JSON.stringify(value, null, 2)} />
-                                                            :
-                                                                <input type={type === 'number' ? 'number' : 'text'}
-                                                                       className="form-control"
-                                                                       onChange={that.onChange.bind(null, name, type)}
-                                                                       value={value} />
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })
-                                    }
-                                </tbody>
-                            </table>
-                    }
+                                return (
+                                    type === 'json' ?
+                                        <div className="argument" key={index}>
+                                            <input disabled={true}
+                                                   placeholder={name}
+                                                   type="text"
+                                                   value={JSON.stringify(value)} />
+                                        </div>
+                                    :
+                                    type === 'number' ?
+                                        <div className="argument" key={index}>
+                                            <input onChange={that.onChange.bind(null, name, type)}
+                                                   placeholder={name}
+                                                   type="number"
+                                                   value={value} />
+                                        </div>
+                                    :
+                                        <div className="argument" key={index}>
+                                            '<input onChange={that.onChange.bind(null, name, type)}
+                                                   placeholder={name}
+                                                   type="text"
+                                                   value={value} />'
+                                        </div>
+                                );
+                            })
+                        }
+                    <span>)</span>
                 </div>
             );
         }
