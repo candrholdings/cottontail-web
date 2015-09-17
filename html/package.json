@@ -1,0 +1,37 @@
+{
+  "name": "publishjs-boilerplate",
+  "version": "0.0.1-dev",
+  "description": "Sample website with PublishJS",
+  "keywords": [
+    "grunt",
+    "gulp",
+    "publishjs"
+  ],
+  "license": "MIT",
+  "email": "william.wong@candrholdings.com",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/candrholdings/publishjs-boilerplate.git"
+  },
+  "scripts": {
+    "test": "vows src/test/*-test.js --spec"
+  },
+  "dependencies": {
+    "commander": "^2.8.1",
+    "publishjs": "git:git@github.com:candrholdings/publishjs.git",
+    "publishjs-assemble": "git:git@github.com:candrholdings/publishjs-assemble.git",
+    "publishjs-cssmin": "git:git@github.com:candrholdings/publishjs-cssmin.git",
+    "publishjs-jshint": "git:git@github.com:candrholdings/publishjs-jshint.git",
+    "publishjs-jsx": "git:git@github.com:candrholdings/publishjs-jsx.git",
+    "publishjs-less": "git:git@github.com:candrholdings/publishjs-less.git",
+    "publishjs-livereload": "git:git@github.com:candrholdings/publishjs-livereload.git",
+    "publishjs-pngout": "git:git@github.com:candrholdings/publishjs-pngout.git",
+    "publishjs-uglify": "git:git@github.com:candrholdings/publishjs-uglify.git"
+  },
+  "devDependencies": {
+    "async": "^1.0.0",
+    "async-linq": "^1.0.2",
+    "vows": "^0.8.1"
+  }
+}

@@ -1,0 +1,24 @@
+.ui-step {
+    border: solid 1px #CCC;
+    margin: 10px 0;
+
+    .title {
+        background-color: #999;
+        color: White;
+        font-weight: bold;
+        padding: 4px 8px;
+    }
+
+    table {
+        margin-bottom: 0;
+
+        tbody tr td {
+            vertical-align: middle;
+
+            textarea {
+                font-family: Consolas, 'Courier New', monospace;
+                height: 5em;
+            }
+        }
+    }
+}

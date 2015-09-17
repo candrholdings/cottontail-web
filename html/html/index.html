@@ -1,0 +1,30 @@
+---
+{
+    "__layout": "default.html",
+    "title": "WebDriver IDE"
+}
+---
+
+--- style
+<link rel="stylesheet" type="text/css" href="css/index.html.css" />
+---
+
+--- body
+<div id="root"></div>
+---
+
+--- javascript
+<script type="text/javascript" src="js/index.html.js"></script>
+<script type="text/jsx">
+!function (App, React) {
+    'use strict';
+
+    var {Actions, store, Page} = window.App.Page;
+
+    React.render(
+        <Page />,
+        document.getElementById('root')
+    );
+}(window.App, window.React);
+</script>
+---
