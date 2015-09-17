@@ -45,11 +45,17 @@
 
                                     return (
                                         <tr key={index}>
-                                            <td className="index">{index}</td>
+                                            <td className="index">{index + 1}</td>
                                             <td className="button-bar left">
                                                 <nobr>
-                                                    <button onClick={that.onStepMoveUp.bind(null, index)} tabIndex={-1}><span className="glyphicon glyphicon-triangle-top" /></button>
-                                                    <button onClick={that.onStepMoveDown.bind(null, index)} tabIndex={-1}><span className="glyphicon glyphicon-triangle-bottom" /></button>
+                                                    <button onClick={that.onStepMoveUp.bind(null, index)} 
+                                                            tabIndex={-1}>
+                                                        <span className="glyphicon glyphicon-triangle-top" />
+                                                    </button>
+                                                    <button onClick={that.onStepMoveDown.bind(null, index)} 
+                                                            tabIndex={-1}>
+                                                        <span className="glyphicon glyphicon-triangle-bottom" />
+                                                    </button>
                                                 </nobr>
                                             </td>
                                             <td className="step">
