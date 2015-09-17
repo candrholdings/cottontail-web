@@ -1,12 +1,6 @@
 .ui-steplist {
     margin-top: .5em;
 
-    .code {
-        color: #333;
-        font-family: @codeFontFamily;
-        font-size: 24px;
-    }
-
     table {
         width: 100%;
 
@@ -14,28 +8,49 @@
             background-color: #F7F7F7;
 
             tr:nth-child(2n) {
-                background-color: #E0E0E0;
+                background-color: #E7E7E7;
             }
 
             tr td {
-                padding: 1em;
-            }
-        }
-    }
+                min-height: 50px;
 
-    .button-bar {
-        padding-right: .5em;
+                &.index {
+                    background-color: White;
+                    color: #CCC;
+                    font-size: 40px;
+                    text-align: center;
+                    width: 100px;
+                }
 
-        button {
-            background-color: Transparent;
-            border: 0;
-            color: #CCC;
-            cursor: pointer;
-            margin: 0;
-            padding: .5em;
+                &.button-bar {
+                    padding: 0 10px;
 
-            &:hover {
-                color: #333;
+                    &.left {
+                        width: 100px;
+                    }
+
+                    &.right {
+                        width: 50px;
+                    }
+
+                    button {
+                        background-color: Transparent;
+                        border: 0;
+                        color: #CCC;
+                        cursor: pointer;
+                        height: 50px;
+                        margin: 0;
+                        width: 50px;
+
+                        &:hover {
+                            color: #333;
+                        }
+                    }
+                }
+
+                &.step {
+                    padding: 10px 0;
+                }
             }
         }
     }

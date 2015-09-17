@@ -1,0 +1,23 @@
+.ui-expandinginput {
+    display: inline-block;
+    position: relative;
+
+    > div,
+    > input {
+        margin-right: 1em;
+        padding: 0 .2em;
+    }
+
+    > div {
+        display: inline-block;
+        height: 1em;
+        overflow-y: hidden;
+    }
+
+    > input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+}

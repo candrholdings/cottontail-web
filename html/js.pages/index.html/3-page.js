@@ -66,7 +66,7 @@ var Page = local.Page = React.createClass({
                     <div className="col-md-2">
                         <UI.CommandList onCommandClick={that.onCommandClick} />
                     </div>
-                    <div className="col-md-5">
+                    <div className="col-md-10">
                         <button className="btn" onClick={that.onPlayClick}>Play <span className="glyphicon glyphicon-play" /></button>
                         <UI.StepList onStepChange={that.onStepChange}
                                      onStepMoveDown={that.onStepMoveDown}
@@ -74,7 +74,10 @@ var Page = local.Page = React.createClass({
                                      onStepRemove={that.onStepRemove}
                                      steps={state.steps} />
                     </div>
-                    <div className="col-md-5">
+                </div>
+                <br />
+                <div className="row">
+                    <div className="col-md-12">
                         <UI.CodeView steps={state.steps} />
                     </div>
                 </div>

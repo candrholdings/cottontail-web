@@ -5,6 +5,7 @@
         parameters: [{
             name: 'milliseconds',
             type: 'number'
-        }]
+        }],
+        description: 'Pause for :milliseconds ms'
     };
 }();

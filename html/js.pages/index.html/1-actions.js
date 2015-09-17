@@ -1,7 +1,7 @@
 var Actions = local.Actions = Reflux.createActions({
     addStep: {},
     removeStep: {},
-    setStepArgs: {},
+    setStepArgs: { sync: true },
     moveStepUp: {},
     moveStepDown: {},
     runAll: { children: ['completed', 'failed'] },

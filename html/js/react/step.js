@@ -31,7 +31,7 @@
 
             return (
                 <div className="ui-step">
-                    <span className="name">.{commandName}</span>
+                    <span className="name">{commandName}</span>
                     <span>(</span>
                         {
                             !!command && parameters.map((parameter, index) => {
@@ -58,17 +58,19 @@
                                     :
                                     type === 'number' ?
                                         <div className="argument" key={index}>
-                                            <input onChange={that.onChange.bind(null, name, type)}
-                                                   placeholder={name}
-                                                   type="number"
-                                                   value={value} />
+                                            <UI.ExpandingInput onChange={that.onChange.bind(null, name, type)}
+                                                               placeholder={name}
+                                                               title={name}
+                                                               type="number"
+                                                               value={value} />
                                         </div>
                                     :
                                         <div className="argument" key={index}>
-                                            '<input onChange={that.onChange.bind(null, name, type)}
-                                                   placeholder={name}
-                                                   type="text"
-                                                   value={value} />'
+                                            '<UI.ExpandingInput onChange={that.onChange.bind(null, name, type)}
+                                                                placeholder={name}
+                                                                title={name}
+                                                                type="text"
+                                                                value={value} />'
                                         </div>
                                 );
                             })

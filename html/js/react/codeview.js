@@ -7,7 +7,7 @@
         render: function () {
             var that = this,
                 {props} = that,
-                lines = ['require(\'webdriverio\')'];
+                lines = ['require("webdriverio")'];
 
             props.steps.map((step, index) => {
                 var commandName = step.get('commandName'),

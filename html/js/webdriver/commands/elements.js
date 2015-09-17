@@ -2,6 +2,7 @@
     'use strict';
 
     window.App.WebDriver.Commands.elements = {
-        parameters: ['selector']
+        parameters: ['selector'],
+        description: 'Select elements by ":selector"'
     };
 }();

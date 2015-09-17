@@ -66,14 +66,14 @@
                 pipe.from('html/')
                     .assemble()
                     .jsx({ blacklist: ['strict'] })
-                    .jshint({ expr: true, browser: true })
+                    .jshint({ expr: true, browser: true, newcap: false })
                     .save('./')
                     .run(callback);
             },
             js: function (pipe, callback) {
                 pipe.from('js/')
                     .jsx({ blacklist: ['strict'] })
-                    .jshint({ expr: true, browser: true })
+                    .jshint({ expr: true, browser: true, newcap: false })
                     .merge()
                     .uglify()
                     .save('js/all.js')
