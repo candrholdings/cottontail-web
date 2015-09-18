@@ -33,7 +33,7 @@ Actions.stop.listen(function () {
             }
         }
     ).then(res => {
-        Math.floor(res.status / 100) === 2 ? this.completed() : this.failed(res.body);
+        res.status === 404 || Math.floor(res.status / 100) === 2 ? this.completed() : this.failed(res.body);
     }).catch(this.failed);
 });
 

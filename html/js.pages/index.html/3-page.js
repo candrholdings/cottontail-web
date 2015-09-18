@@ -1,6 +1,8 @@
 var Page = local.Page = React.createClass({
     mixins: [
         window.App.Mixins.StateFrom(store, {
+            active: store.getActive,
+            busy: store.getBusy,
             steps: store.getSteps
         })
     ],
@@ -57,8 +59,8 @@ var Page = local.Page = React.createClass({
                         <UI.CommandList onCommandClick={that.onCommandClick} />
                     </div>
                     <div className="col-md-10">
-                        <button className="btn" onClick={that.onStartClick}>Start <span className="glyphicon glyphicon-play" /></button>
-                        <button className="btn" onClick={that.onStopClick}>Stop <span className="glyphicon glyphicon-stop" /></button>
+                        <button className="btn" disabled={state.active || state.busy} onClick={that.onStartClick}>Start <span className="glyphicon glyphicon-play" /></button>
+                        <button className="btn" disabled={!state.active || state.busy} onClick={that.onStopClick}>Stop <span className="glyphicon glyphicon-stop" /></button>
                         <UI.StepList onStepChange={that.onStepChange}
                                      onStepMoveDown={that.onStepMoveDown}
                                      onStepMoveUp={that.onStepMoveUp}
