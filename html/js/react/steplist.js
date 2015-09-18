@@ -24,6 +24,11 @@
 
             handler && handler(stepIndex);
         },
+        onStepRun: function (stepIndex) {
+            var handler = this.props.onStepRun;
+
+            handler && handler(stepIndex);
+        },
         render: function () {
             var that = this,
                 {props} = that;
@@ -55,6 +60,10 @@
                                                     <button onClick={that.onStepMoveDown.bind(null, index)} 
                                                             tabIndex={-1}>
                                                         <span className="glyphicon glyphicon-triangle-bottom" />
+                                                    </button>
+                                                    <button onClick={that.onStepRun.bind(null, index)} 
+                                                            tabIndex={-1}>
+                                                        <span className="glyphicon glyphicon-play" />
                                                     </button>
                                                 </nobr>
                                             </td>

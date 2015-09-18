@@ -27,34 +27,24 @@ var Page = local.Page = React.createClass({
     onStepMoveDown: function (stepIndex) {
         Actions.moveStepDown(stepIndex);
     },
-    onPlayClick: function () {
-        var newSteps = [];
+    onStepRun: function (stepIndex) {
+        var step = this.state.steps.get(stepIndex),
+            args = step.get('args'),
+            commandName = step.get('commandName'),
+            command = window.App.WebDriver.Commands[commandName];
 
-        this.state.steps.forEach(step => {
-            var args = step.get('args'),
-                commandName = step.get('commandName'),
-                command = window.App.WebDriver.Commands[commandName];
-
-            newSteps.push({
-                name: commandName,
-                args: command ? command.parameters.map(parameter => {
-                    return args.get(typeof parameter === 'string' ? parameter : parameter.name);
-                }) : []
-            });
+        Actions.runStep({
+            name: commandName,
+            args: command ? command.parameters.map(parameter => {
+                return args.get(typeof parameter === 'string' ? parameter : parameter.name);
+            }) : []
         });
-
-        window.fetch(
-            'http://localhost:9323/run',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    steps: newSteps
-                })
-            }
-        );
+    },
+    onStartClick: function () {
+        Actions.start();
+    },
+    onStopClick: function () {
+        Actions.stop();
     },
     render: function () {
         var that = this,
@@ -67,11 +57,13 @@ var Page = local.Page = React.createClass({
                         <UI.CommandList onCommandClick={that.onCommandClick} />
                     </div>
                     <div className="col-md-10">
-                        <button className="btn" onClick={that.onPlayClick}>Play <span className="glyphicon glyphicon-play" /></button>
+                        <button className="btn" onClick={that.onStartClick}>Start <span className="glyphicon glyphicon-play" /></button>
+                        <button className="btn" onClick={that.onStopClick}>Stop <span className="glyphicon glyphicon-stop" /></button>
                         <UI.StepList onStepChange={that.onStepChange}
                                      onStepMoveDown={that.onStepMoveDown}
                                      onStepMoveUp={that.onStepMoveUp}
                                      onStepRemove={that.onStepRemove}
+                                     onStepRun={that.onStepRun}
                                      steps={state.steps} />
                     </div>
                 </div>

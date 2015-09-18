@@ -2,6 +2,8 @@ var store = window.App.Page.store = Reflux.createStore({
     listenables: [Actions],
     mixins: [
         window.App.Mixins.StoreProperties({
+            active: false,
+            busy: false,
             steps: List([
                 Map({
                     commandName: 'remote',
@@ -72,5 +74,34 @@ var store = window.App.Page.store = Reflux.createStore({
 
             return newSteps.set(stepIndex, secondStep).set(stepIndex + 1, firstStep);
         }));
+    },
+    onStart: function () {
+        this._setBusy(true);
+    },
+    onStartCompleted: function () {
+        this._setActive(true);
+        this._setBusy(false);
+    },
+    onStartFailed: function () {
+        this._setBusy(false);
+    },
+    onStop: function () {
+        this._setBusy(true);
+    },
+    onStopCompleted: function () {
+        this._setActive(false);
+        this._setBusy(false);
+    },
+    onStopFailed: function () {
+        this._setBusy(false);
+    },
+    onRunStep: function () {
+        this._setBusy(true);
+    },
+    onRunStepCompleted: function () {
+        this._setBusy(false);
+    },
+    onRunStepFailed: function () {
+        this._setBusy(false);
     }
 });
