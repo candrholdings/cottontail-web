@@ -1,23 +1,37 @@
 .ui-step {
     color: #333;
-    display: inline-block;
-    font-family: Consolas, 'Courier New', monospace;
-    font-size: 16px;
+    display: flex;
+    flex-direction: column;
 
-    input[type="number"],
-    input[type="text"] {
-        background-color: White;
-        border: solid 1px #CCC;
-        color: #333;
-        outline: 0;
+    > .code {
+        font-family: Consolas, 'Courier New', monospace;
+        font-size: 16px;
 
-        &:focus {
-            background-color: #666;
-            color: White;
+        input[type="number"],
+        input[type="text"] {
+            background-color: White;
+            border: solid 1px #CCC;
+            color: #333;
+            outline: 0;
+
+            &:focus {
+                background-color: #999;
+                color: White;
+            }
+        }
+
+        input:disabled {
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .argument {
+            padding-left: 1em;
         }
     }
 
-    .argument {
-        padding-left: 1em;
+    > .description {
+        font-size: 12px;
+        margin-top: 5px;
     }
 }

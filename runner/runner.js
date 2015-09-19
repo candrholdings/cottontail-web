@@ -13,9 +13,15 @@ var assert = require('assert'),
             if (!command) {
                 return console.warn('Cannot find command name "' + step.name + '"');
             } else {
-                session = command.apply(session, step.args);
-                process.send({ ack: step.name });
+                session = command.apply(session, step.args).then(function (result) {
+                    process.send(JSON.stringify({ result: result }, null, 2));
+                });
             }
+        },
+        kill: function () {
+            session && session.end && session.end();
+            session = 0;
+            process.exit(0);
         }
     };
 

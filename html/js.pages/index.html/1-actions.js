@@ -48,6 +48,12 @@ Actions.runStep.listen(function (step) {
             body: JSON.stringify(step)
         }
     ).then(res => {
-        Math.floor(res.status / 100) === 2 ? this.completed() : this.failed(res.body);
+        res.json().then(json => {
+            if (Math.floor(res.status / 100) === 2) {
+                this.completed(step.id, json.result);
+            } else {
+                this.failed(step.id, json.error);
+            }
+        });
     }).catch(this.failed);
 });

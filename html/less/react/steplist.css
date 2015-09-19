@@ -1,56 +1,115 @@
 .ui-steplist {
     margin-top: .5em;
 
-    table {
+    .button {
+        background-color: Transparent;
+        border: 0;
+        color: #CCC;
+        cursor: pointer;
+        margin: 0;
+        outline: 0;
+        padding: 0;
+
+        &:hover {
+            color: #333;
+        }
+    }
+
+    .big-button {
+        .button;
+
+        font-size: 16px;
+        height: 50px;
+        width: 50px;
+    }
+
+    > ul {
+        background-color: #F7F7F7;
+        margin: 0;
+        padding: 0;
         width: 100%;
 
-        tbody {
-            background-color: #F7F7F7;
+        > li {
+            display: flex;
+            flex-direction: row;
+            min-height: 50px;
 
-            tr:nth-child(2n) {
+            &:nth-child(2n) {
                 background-color: #E7E7E7;
             }
 
-            tr td {
-                min-height: 50px;
+            > div.index {
+                background-color: White;
+                color: #CCC;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
 
-                &.index {
-                    background-color: White;
-                    color: #CCC;
+                span.number {
                     font-size: 40px;
                     text-align: center;
-                    width: 100px;
+                    width: 50px;
                 }
 
-                &.button-bar {
-                    padding: 0 10px;
-
-                    &.left {
-                        width: 150px;
-                    }
-
-                    &.right {
-                        width: 50px;
-                    }
+                div.buttons {
+                    display: flex;
+                    flex-direction: column;
+                    margin-right: 10px;
+                    visibility: hidden;
 
                     button {
-                        background-color: Transparent;
-                        border: 0;
-                        color: #CCC;
-                        cursor: pointer;
-                        height: 50px;
-                        margin: 0;
-                        width: 50px;
+                        .button;
 
-                        &:hover {
-                            color: #333;
-                        }
+                        height: 25px;
+                        width: 25px;
                     }
                 }
+            }
 
-                &.step {
-                    padding: 10px 0;
-                }
+            &:hover > div.index > div.buttons {
+                visibility: visible;
+            }
+
+            > button.play-button {
+                .big-button;
+
+                align-self: center;
+            }
+
+            > div.step {
+                align-items: center;
+                display: flex;
+                flex: 1;
+                padding: 10px 0;
+            }
+
+            > div.busy,
+            > div.error,
+            > div.result {
+                font-family: 'Consolas', 'Courier New', monospace;
+                overflow: hidden;
+                padding: 5px;
+                text-overflow: ellipsis;
+                align-items: center;
+                display: flex;
+                flex: 1;
+                padding: 10px 0;
+            }
+
+            > div.busy {
+                color: #999;
+            }
+
+            > div.error {
+                color: Red;
+            }
+
+            > button.remove-button {
+                .big-button;
+
+                align-self: center;
+                display: flex;
+                justify-content: center;
             }
         }
     }

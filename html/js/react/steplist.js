@@ -35,53 +35,64 @@
 
             return (
                 <div className="ui-steplist">
-                    <table>
-                        <tbody>
-                            {
-                                props.steps.map((step, index) => {
-                                    var args = step.get('args'),
-                                        commandName = step.get('commandName'),
-                                        command = window.App.WebDriver.Commands[commandName],
-                                        description = command && command.description || '';
+                    <ul>
+                        {
+                            props.steps.map((step, index) => {
+                                var args = step.get('args'),
+                                    commandName = step.get('commandName'),
+                                    error = step.get('error'),
+                                    result = step.get('result'),
+                                    status = step.get('status'),
+                                    command = window.App.WebDriver.Commands[commandName];
 
-                                    (args || Immutable.Map()).keySeq().forEach(name => {
-                                        description = description.replace(new RegExp(':' + name), args.get(name));
-                                    });
-
-                                    return (
-                                        <tr key={index}>
-                                            <td className="index">{index + 1}</td>
-                                            <td className="button-bar left">
-                                                <nobr>
-                                                    <button onClick={that.onStepMoveUp.bind(null, index)} 
-                                                            tabIndex={-1}>
-                                                        <span className="glyphicon glyphicon-triangle-top" />
-                                                    </button>
-                                                    <button onClick={that.onStepMoveDown.bind(null, index)} 
-                                                            tabIndex={-1}>
-                                                        <span className="glyphicon glyphicon-triangle-bottom" />
-                                                    </button>
-                                                    <button onClick={that.onStepRun.bind(null, index)} 
-                                                            tabIndex={-1}>
-                                                        <span className="glyphicon glyphicon-play" />
-                                                    </button>
-                                                </nobr>
-                                            </td>
-                                            <td className="step">
-                                                <UI.Step args={args}
-                                                         commandName={commandName}
-                                                         onChange={that.onStepChange.bind(null, index)} />
-                                            </td>
-                                            <td className="description">{description}</td>
-                                            <td className="button-bar right">
-                                                <button onClick={that.onStepRemove.bind(null, index)} tabIndex={-1}><span className="glyphicon glyphicon-remove" /></button>
-                                            </td>
-                                        </tr>
-                                    );
-                                })
-                            }
-                        </tbody>
-                    </table>
+                                return (
+                                    <li key={index}>
+                                        <div className="index">
+                                            <span className="number">{index + 1}</span>
+                                            <div className="buttons">
+                                                <button onClick={that.onStepMoveUp.bind(null, index)}
+                                                        tabIndex={-1}>
+                                                    <span className="glyphicon glyphicon-triangle-top" />
+                                                </button>
+                                                <button onClick={that.onStepMoveDown.bind(null, index)}
+                                                        tabIndex={-1}>
+                                                    <span className="glyphicon glyphicon-triangle-bottom" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <button className="play-button"
+                                                onClick={that.onStepRun.bind(null, index)}
+                                                tabIndex={-1}>
+                                            <span className="glyphicon glyphicon-play" />
+                                        </button>
+                                        <div className="step">
+                                            <UI.Step args={args}
+                                                     commandName={commandName}
+                                                     onChange={that.onStepChange.bind(null, index)} />
+                                        </div>
+                                        {
+                                            status === 'busy' ?
+                                                <div className="busy">Running&hellip;</div> :
+                                            status === 'fail' ?
+                                                <div className="error">
+                                                    {error ? JSON.stringify(error) : 'Failed'}
+                                                </div> :
+                                            status === 'success' ?
+                                                <div className="result">
+                                                    {result ? JSON.stringify(result) : 'Success'}
+                                                </div> :
+                                            false
+                                        }
+                                        <button className="remove-button"
+                                                onClick={that.onStepRemove.bind(null, index)}
+                                                tabIndex={-1}>
+                                            <span className="glyphicon glyphicon-trash" />
+                                        </button>
+                                    </li>
+                                );
+                            })
+                        }
+                    </ul>
                 </div>
             );
         }

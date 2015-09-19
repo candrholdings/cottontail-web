@@ -37,9 +37,9 @@ function main() {
                 console.log('Timed out while sending step');
             }, 5000);
 
-            child.once('message', function () {
+            child.once('message', function (message) {
                 clearTimeout(timeout);
-                res.sendStatus(204);
+                res.json(JSON.parse(message)).end();
                 console.log('Running step "' + req.body.name + '"');
             }).send(JSON.stringify({ type: 'step', body: req.body }));
         } else {
@@ -48,7 +48,14 @@ function main() {
         }
     }).post('/stop', function (req, res) {
         if (child) {
-            child.kill();
+            var timeout = setTimeout(function () {
+                child && child.kill();
+            }, 5000);
+
+            child.on('exit', function () {
+                clearTimeout(timeout);
+            }).send(JSON.stringify({ type: 'kill'}));
+            
             res.sendStatus(204);
             console.log('Runner stopped');
         } else {

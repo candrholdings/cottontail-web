@@ -31,15 +31,15 @@ var Page = local.Page = React.createClass({
     },
     onStepRun: function (stepIndex) {
         var step = this.state.steps.get(stepIndex),
-            args = step.get('args'),
             commandName = step.get('commandName'),
             command = window.App.WebDriver.Commands[commandName];
 
         Actions.runStep({
+            id: step.get('id'),
             name: commandName,
             args: command ? command.parameters.map(parameter => {
-                return args.get(typeof parameter === 'string' ? parameter : parameter.name);
-            }) : []
+                return step.get('args').get(typeof parameter === 'string' ? parameter : parameter.name);
+            }) : [],
         });
     },
     onStartClick: function () {
@@ -55,10 +55,7 @@ var Page = local.Page = React.createClass({
         return (
             <div className="container">
                 <div className="row">
-                    <div className="col-md-2">
-                        <UI.CommandList onCommandClick={that.onCommandClick} />
-                    </div>
-                    <div className="col-md-10">
+                    <div className="col-md-12">
                         <button className="btn" disabled={state.active || state.busy} onClick={that.onStartClick}>Start <span className="glyphicon glyphicon-play" /></button>
                         <button className="btn" disabled={!state.active || state.busy} onClick={that.onStopClick}>Stop <span className="glyphicon glyphicon-stop" /></button>
                         <UI.StepList onStepChange={that.onStepChange}
@@ -67,6 +64,11 @@ var Page = local.Page = React.createClass({
                                      onStepRemove={that.onStepRemove}
                                      onStepRun={that.onStepRun}
                                      steps={state.steps} />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <UI.CommandList onCommandClick={that.onCommandClick} />
                     </div>
                 </div>
                 <br />

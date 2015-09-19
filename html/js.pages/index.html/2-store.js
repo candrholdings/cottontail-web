@@ -4,45 +4,35 @@ var store = window.App.Page.store = Reflux.createStore({
         window.App.Mixins.StoreProperties({
             active: false,
             busy: false,
-            steps: List([
-                Map({
-                    commandName: 'remote',
-                    args: Map({
-                        options: Map({
-                            desiredCapabilities: Map({
-                                browserName: 'edge'
-                            }),
-                            host: 'localhost',
-                            port: 17556,
-                            path: '/'
-                        })
-                    })
-                }),
-                Map({
-                    commandName: 'init'
-                }),
-                Map({
-                    commandName: 'url',
-                    args: Map({
-                        url: 'http://www.google.com/'
-                    })
-                }),
-                Map({
-                    commandName: 'pause',
-                    args: Map({
-                        milliseconds: 2000
-                    })
-                }),
-                Map({
-                    commandName: 'end'
-                })
-            ])
+            steps: List()
         })
     ],
-    onAddStep: function (commandName) {
+    init: function () {
+        Actions.addStep('remote', {
+            options: Map({
+                desiredCapabilities: Map({
+                    browserName: 'edge'
+                }),
+                host: 'localhost',
+                port: 17556,
+                path: '/'
+            })
+        });
+
+        Actions.addStep('init');
+        Actions.addStep('url', { url: 'http://www.google.com/' });
+        Actions.addStep('pause', { milliseconds: 2000 });
+        Actions.addStep('getTitle');
+        Actions.addStep('end');
+    },
+    onAddStep: function (commandName, args) {
         this._setSteps(this._steps.push(Map({
+            id: Date.now() + Math.random() + '',
             commandName: commandName,
-            args: Map()
+            args: Map(args || {}),
+            error: '',
+            result: '',
+            status: ''
         })));
     },
     onRemoveStep: function (indexToRemove) {
@@ -64,8 +54,6 @@ var store = window.App.Page.store = Reflux.createStore({
     onMoveStepDown: function (stepIndex) {
         var steps = this._steps;
 
-        console.log(steps.size);
-
         if (stepIndex > steps.size - 2) { return; }
 
         this._setSteps(steps.update(newSteps => {
@@ -75,18 +63,12 @@ var store = window.App.Page.store = Reflux.createStore({
             return newSteps.set(stepIndex, secondStep).set(stepIndex + 1, firstStep);
         }));
     },
-    onStart: function () {
-        this._setBusy(true);
-    },
     onStartCompleted: function () {
         this._setActive(true);
         this._setBusy(false);
     },
     onStartFailed: function () {
         this._setBusy(false);
-    },
-    onStop: function () {
-        this._setBusy(true);
     },
     onStopCompleted: function () {
         this._setActive(false);
@@ -95,13 +77,31 @@ var store = window.App.Page.store = Reflux.createStore({
     onStopFailed: function () {
         this._setBusy(false);
     },
-    onRunStep: function () {
-        this._setBusy(true);
+    _mergeStepByID: function (stepID, merge) {
+        var steps = this._steps,
+            index = steps.findIndex(step => step.get('id') === stepID);
+
+        ~index && this._setSteps(steps.mergeIn([index], merge));
     },
-    onRunStepCompleted: function () {
-        this._setBusy(false);
+    onRunStep: function (step) {
+        this._mergeStepByID(step.id, {
+            error: null,
+            result: null,
+            status: 'busy'
+        });
     },
-    onRunStepFailed: function () {
-        this._setBusy(false);
+    onRunStepCompleted: function (stepID, result) {
+        this._mergeStepByID(stepID, {
+            error: null,
+            result: result,
+            status: 'success'
+        });
+    },
+    onRunStepFailed: function (stepID, err) {
+        this._mergeStepByID(stepID, {
+            error: err,
+            result: null,
+            status: 'fail'
+        });
     }
 });

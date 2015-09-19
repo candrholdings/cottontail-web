@@ -27,55 +27,57 @@
                 {props} = that,
                 {args, commandName} = props,
                 command = window.App.WebDriver.Commands[commandName],
-                {parameters} = command || {};
+                {parameters} = command || {},
+                description = command && command.description || '';
+
+            args && args.keySeq().forEach(name => {
+                description = description.replace(new RegExp(':' + name), args.get(name));
+            });
 
             return (
                 <div className="ui-step">
-                    <span className="name">{commandName}</span>
-                    <span>(</span>
-                        {
-                            !!command && parameters.map((parameter, index) => {
-                                var name, 
-                                    type = 'string';
+                    <div className="code">
+                        <span className="name">{commandName}</span>
+                        <span>(</span>
+                            {
+                                !!command && parameters.map((parameter, index) => {
+                                    var name, 
+                                        type = 'string';
 
-                                if (typeof parameter === 'string') {
-                                    name = parameter;
-                                } else {
-                                    name = parameter.name;
-                                    type = parameter.type;
-                                }
+                                    if (typeof parameter === 'string') {
+                                        name = parameter;
+                                    } else {
+                                        name = parameter.name;
+                                        type = parameter.type;
+                                    }
 
-                                var value = args.get(name);
+                                    var value = args.get(name);
 
-                                return (
-                                    type === 'json' ?
-                                        <div className="argument" key={index}>
+                                    return [!!index && ', ', (
+                                        type === 'json' ?
                                             <input disabled={true}
                                                    placeholder={name}
                                                    type="text"
                                                    value={JSON.stringify(value)} />
-                                        </div>
-                                    :
-                                    type === 'number' ?
-                                        <div className="argument" key={index}>
+                                        :
+                                        type === 'number' ?
                                             <UI.ExpandingInput onChange={that.onChange.bind(null, name, type)}
                                                                placeholder={name}
                                                                title={name}
                                                                type="number"
                                                                value={value} />
-                                        </div>
-                                    :
-                                        <div className="argument" key={index}>
-                                            '<UI.ExpandingInput onChange={that.onChange.bind(null, name, type)}
+                                        :
+                                            <UI.ExpandingInput onChange={that.onChange.bind(null, name, type)}
                                                                 placeholder={name}
                                                                 title={name}
                                                                 type="text"
-                                                                value={value} />'
-                                        </div>
-                                );
-                            })
-                        }
-                    <span>)</span>
+                                                                value={value} />
+                                    )];
+                                })
+                            }
+                        <span>)</span>
+                    </div>
+                    {!!description && <div className="description">{description}</div>}
                 </div>
             );
         }
