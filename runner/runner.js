@@ -19,9 +19,15 @@ var assert = require('assert'),
             }
         },
         kill: function () {
-            session && session.end && session.end();
-            session = 0;
-            process.exit(0);
+            console.warn('Received "kill" command');
+
+            if (session && session.end) {
+                session.end().then(function () {
+                    process.exit(0);
+                });
+            } else {
+                process.exit(0);
+            }
         }
     };
 
