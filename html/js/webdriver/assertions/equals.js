@@ -2,6 +2,6 @@
     'use strict';
 
     window.App.WebDriver.Commands.assertEqual = {
-        parameters: ['value']
+        parameters: ['expected', 'message']
     };
 }();

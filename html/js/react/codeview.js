@@ -39,7 +39,7 @@
                 lines.push(line.join(''));
             });
 
-            lines[lines.length - 1] = lines[lines.length - 1] + ';';
+            lines.push('    .end();');
 
             return (
                 <div className="ui-codeview">

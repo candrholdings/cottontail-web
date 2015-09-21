@@ -27,12 +27,21 @@
                 {props} = that,
                 {args, commandName} = props,
                 command = window.App.WebDriver.Commands[commandName],
-                {parameters} = command || {},
-                description = command && command.description || '';
+                {parameters, platforms} = command || {},
+                {spec: specTemplate} = platforms || {},
+                description;
 
-            args && args.keySeq().forEach(name => {
-                description = description.replace(new RegExp(':' + name), args.get(name));
-            });
+            if (specTemplate) {
+                if (typeof specTemplate === 'string') {
+                    description = specTemplate;
+
+                    args && args.keySeq().forEach(name => {
+                        description = description.replace(new RegExp(':' + name), args.get(name));
+                    });
+                } else {
+                    description = specTemplate.call(null, args.toJS());
+                }
+            }
 
             return (
                 <div className="ui-step">
@@ -41,7 +50,7 @@
                         <span>(</span>
                             {
                                 !!command && parameters.map((parameter, index) => {
-                                    var name, 
+                                    var name,
                                         type = 'string';
 
                                     if (typeof parameter === 'string') {

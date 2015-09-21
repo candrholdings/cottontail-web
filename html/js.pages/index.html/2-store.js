@@ -17,22 +17,10 @@ var store = window.App.Page.store = Reflux.createStore({
         })
     ],
     init: function () {
-        // Actions.addStep('remote', {
-        //     options: Map({
-        //         desiredCapabilities: Map({
-        //             browserName: 'edge'
-        //         }),
-        //         host: 'localhost',
-        //         port: 17556,
-        //         path: '/'
-        //     })
-        // });
-
-        // Actions.addStep('init');
         Actions.addStep('url', { url: 'http://www.google.com/' });
-        Actions.addStep('pause', { milliseconds: 2000 });
+        Actions.addStep('pause', { milliseconds: 500 });
         Actions.addStep('getTitle');
-        // Actions.addStep('end');
+        Actions.addStep('assertEqual', { expected: 'Google' });
     },
     onAddStep: function (commandName, args) {
         this._setSteps(this._steps.push(Map({
@@ -113,9 +101,31 @@ var store = window.App.Page.store = Reflux.createStore({
             result: result,
             status: 'success'
         });
+
+        if (this.getAutoRun()) {
+            var steps = this.getSteps(),
+                index = steps.findIndex(step => step.get('id') === stepID),
+                nextStep = ~index ? steps.get(index + 1) : null;
+
+            if (nextStep) {
+                var commandName = nextStep.get('commandName'),
+                    command = window.App.WebDriver.Commands[commandName];
+
+                Actions.runStep({
+                    id: nextStep.get('id'),
+                    name: commandName,
+                    args: command ? command.parameters.map(parameter => {
+                        return nextStep.get('args').get(typeof parameter === 'string' ? parameter : parameter.name);
+                    }) : [],
+                });
+            } else {
+                this._setAutoRun(false);
+            }
+        }
     },
     onRunStepFailed: function (stepID, err) {
         this._setBusy(false);
+        this._setAutoRun(false);
         this._mergeStepByID(stepID, {
             error: err,
             result: null,
@@ -126,6 +136,23 @@ var store = window.App.Page.store = Reflux.createStore({
         this._setCapabilities(newCapabilities);
     },
     onSetAutoRun: function (newAutoRun) {
-        this._setAutoRun(newAutoRun);
+        if (this._autoRun !== newAutoRun) {
+            this._setAutoRun(newAutoRun);
+
+            var nextStep = this.getSteps().get(0);
+
+            if (nextStep) {
+                var commandName = nextStep.get('commandName'),
+                    command = window.App.WebDriver.Commands[commandName];
+
+                Actions.runStep({
+                    id: nextStep.get('id'),
+                    name: commandName,
+                    args: command ? command.parameters.map(parameter => {
+                        return nextStep.get('args').get(typeof parameter === 'string' ? parameter : parameter.name);
+                    }) : [],
+                });
+            }
+        }
     }
 });

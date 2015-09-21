@@ -5,7 +5,15 @@ var assert = require('assert'),
     session = require('webdriverio'),
     handlers = {
         start: function (body) {
-            return (session = session.remote(body.capabilities).init());
+            session = session.remote(body.capabilities).init();
+
+            session.addCommand('assertEqual', function (expected, message) {
+                return this.lastPromise.then(function (actual) {
+                    assert.deepEqual(actual, expected, message);
+                });
+            });
+
+            return session;
         },
         step: function (step) {
             if (!session) {
@@ -25,9 +33,10 @@ var assert = require('assert'),
 
                 session = command.apply(session, step.args).then(function (result) {
                     deferred.resolve(result || null);
+                    return result;
                 }).catch(function (err) {
                     deferred.reject(err);
-                    throw err;
+                    // throw err;
                 });
 
                 return deferred.promise;

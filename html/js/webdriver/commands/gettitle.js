@@ -2,6 +2,10 @@
     'use strict';
 
     window.App.WebDriver.Commands.getTitle = {
-        parameters: []
+        parameters: [],
+        platforms: {
+            webdriverio: '.title()',
+            spec: 'Get window title'
+        }
     };
 }();

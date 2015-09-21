@@ -63,7 +63,7 @@ function main() {
                     res.sendStatus(500);
                 } else {
                     console.warn('Failed to run step "' + stepName + '" due to "' + err + '"');
-                    res.status(500).json({ error: err }).end();
+                    res.status(500).json({ error: { message: err.message } }).end();
                 }
             });
     }).post('/stop', function (req, res) {
