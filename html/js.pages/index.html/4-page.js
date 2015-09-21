@@ -2,6 +2,7 @@ var Page = local.Page = React.createClass({
     mixins: [
         window.App.Mixins.StateFrom(store, {
             active: store.getActive,
+            autoRun: store.getAutoRun,
             busy: store.getBusy,
             capabilitiesText: store.getCapabilitiesText,
             steps: store.getSteps
@@ -49,26 +50,34 @@ var Page = local.Page = React.createClass({
     onStopClick: function () {
         Actions.stop();
     },
+    onRunAllClick: function () {
+        Actions.setAutoRun(!store.autoRun);
+    },
     onCapabilitiesChange: function (evt) {
         Actions.setCapabilitiesText(evt.target.value);
     },
     render: function () {
         var that = this,
-            {state} = that;
+            {state} = that,
+            {active, busy} = state;
 
         return (
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
-                        <button className="btn" disabled={state.active || state.busy} onClick={that.onStartClick}>Start <span className="glyphicon glyphicon-play" /></button>
-                        <button className="btn" disabled={!state.active || state.busy} onClick={that.onStopClick}>Stop <span className="glyphicon glyphicon-stop" /></button>
+                        <div className="button-bar">
+                            <button className="btn" disabled={active || busy} onClick={that.onStartClick}><span className="glyphicon glyphicon-plus" /> Create session</button>
+                            <button className="btn" disabled={!active || busy} onClick={that.onStopClick}><span className="glyphicon glyphicon-stop" /> Stop session</button>
+                            <button className="btn" disabled={!active || busy} onClick={that.onRunAllClick}><span className="glyphicon glyphicon-play" /> Run all steps</button>
+                        </div>
                         <div className="hide">
                             <h1>Capabilities</h1>
                             <textarea className="capabilities"
                                       onChange={that.onCapabilitiesChange}
                                       value={state.capabilitiesText} />
                         </div>
-                        <UI.StepList onStepChange={that.onStepChange}
+                        <UI.StepList disabled={!active || busy}
+                                     onStepChange={that.onStepChange}
                                      onStepMoveDown={that.onStepMoveDown}
                                      onStepMoveUp={that.onStepMoveUp}
                                      onStepRemove={that.onStepRemove}

@@ -5,8 +5,7 @@
 
     window.UI.CodeView = React.createClass({
         propTypes: {
-            capabilitiesText: PropTypes.any,
-            steps: PropTypes.arrayOf(PropTypes.any)
+            capabilitiesText: PropTypes.any
         },
         render: function () {
             var that = this,

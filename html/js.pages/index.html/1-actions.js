@@ -1,13 +1,14 @@
 var Actions = local.Actions = Reflux.createActions({
     addStep: {},
-    removeStep: {},
-    setStepArgs: { sync: true },
-    moveStepUp: {},
     moveStepDown: {},
+    moveStepUp: {},
+    removeStep: {},
+    runStep: { children: ['completed', 'failed'] },
+    setAutoRun: {},
     setCapabilities: {},
+    setStepArgs: { sync: true },
     start: { children: ['completed', 'failed'] },
-    stop: { children: ['completed', 'failed'] },
-    runStep: { children: ['completed', 'failed'] }
+    stop: { children: ['completed', 'failed'] }
 });
 
 Actions.start.listen(function (capabilities) {

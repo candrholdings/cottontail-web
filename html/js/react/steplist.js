@@ -31,7 +31,8 @@
         },
         render: function () {
             var that = this,
-                {props} = that;
+                {props} = that,
+                {disabled} = props;
 
             return (
                 <div className="ui-steplist">
@@ -61,6 +62,7 @@
                                             </div>
                                         </div>
                                         <button className="play-button"
+                                                disabled={disabled}
                                                 onClick={that.onStepRun.bind(null, index)}
                                                 tabIndex={-1}>
                                             <span className="glyphicon glyphicon-play" />

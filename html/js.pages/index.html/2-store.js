@@ -3,6 +3,7 @@ var store = window.App.Page.store = Reflux.createStore({
     mixins: [
         window.App.Mixins.StoreProperties({
             active: false,
+            autoRun: false,
             busy: false,
             capabilitiesText: JSON.stringify({
                 desiredCapabilities: {
@@ -71,12 +72,18 @@ var store = window.App.Page.store = Reflux.createStore({
             return newSteps.set(stepIndex, secondStep).set(stepIndex + 1, firstStep);
         }));
     },
+    onStart: function () {
+        this._setBusy(true);
+    },
     onStartCompleted: function () {
         this._setActive(true);
         this._setBusy(false);
     },
     onStartFailed: function () {
         this._setBusy(false);
+    },
+    onStop: function () {
+        this._setBusy(true);
     },
     onStopCompleted: function () {
         this._setActive(false);
@@ -92,6 +99,7 @@ var store = window.App.Page.store = Reflux.createStore({
         ~index && this._setSteps(steps.mergeIn([index], merge));
     },
     onRunStep: function (step) {
+        this._setBusy(true);
         this._mergeStepByID(step.id, {
             error: null,
             result: null,
@@ -99,6 +107,7 @@ var store = window.App.Page.store = Reflux.createStore({
         });
     },
     onRunStepCompleted: function (stepID, result) {
+        this._setBusy(false);
         this._mergeStepByID(stepID, {
             error: null,
             result: result,
@@ -106,6 +115,7 @@ var store = window.App.Page.store = Reflux.createStore({
         });
     },
     onRunStepFailed: function (stepID, err) {
+        this._setBusy(false);
         this._mergeStepByID(stepID, {
             error: err,
             result: null,
@@ -115,4 +125,7 @@ var store = window.App.Page.store = Reflux.createStore({
     onSetCapabilities: function (newCapabilities) {
         this._setCapabilities(newCapabilities);
     },
+    onSetAutoRun: function (newAutoRun) {
+        this._setAutoRun(newAutoRun);
+    }
 });

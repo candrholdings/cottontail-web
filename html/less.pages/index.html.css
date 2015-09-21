@@ -1,6 +1,14 @@
 #root {
     margin: 1em;
 
+    .button-bar {
+        display: inline-block;
+
+        > button {
+            margin-right: 10px;
+        }
+    }
+
     textarea.capabilities {
         font-family: Consolas, 'Courier New', monospace;
         height: 15em;
