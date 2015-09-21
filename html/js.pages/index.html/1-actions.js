@@ -4,19 +4,21 @@ var Actions = local.Actions = Reflux.createActions({
     setStepArgs: { sync: true },
     moveStepUp: {},
     moveStepDown: {},
+    setCapabilities: {},
     start: { children: ['completed', 'failed'] },
     stop: { children: ['completed', 'failed'] },
     runStep: { children: ['completed', 'failed'] }
 });
 
-Actions.start.listen(function () {
+Actions.start.listen(function (capabilities) {
     window.fetch(
         'http://localhost:9323/start',
         {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify(capabilities)
         }
     ).then(res => {
         Math.floor(res.status / 100) === 2 ? this.completed() : this.failed(res.body);
@@ -50,7 +52,7 @@ Actions.runStep.listen(function (step) {
     ).then(res => {
         res.json().then(json => {
             if (Math.floor(res.status / 100) === 2) {
-                this.completed(step.id, json.result);
+                this.completed(step.id, json);
             } else {
                 this.failed(step.id, json.error);
             }

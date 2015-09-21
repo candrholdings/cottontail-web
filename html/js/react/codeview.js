@@ -4,10 +4,14 @@
     var {PropTypes} = React;
 
     window.UI.CodeView = React.createClass({
+        propTypes: {
+            capabilitiesText: PropTypes.any,
+            steps: PropTypes.arrayOf(PropTypes.any)
+        },
         render: function () {
             var that = this,
                 {props} = that,
-                lines = ['require("webdriverio")'];
+                lines = ['require("webdriverio")', '    .remote(' + props.capabilitiesText.split('\n').map((l, i) => i ? '    ' + l : l).join('\n') + ')', '    .init()'];
 
             props.steps.map((step, index) => {
                 var commandName = step.get('commandName'),

@@ -5,6 +5,7 @@ var childProcess = require('child_process'),
     fs = require('fs'),
     http = require('http'),
     path = require('path'),
+    Q = require('q'),
     tmpdir = require('os').tmpdir();
 
 main();
@@ -18,43 +19,63 @@ function main() {
     app.use(require('body-parser').json());
 
     app.post('/start', function (req, res) {
-        killRunner(child, function () {
-            child = childProcess.fork('runner.js').on('exit', function (exitCode) {
+        stopRunner(child).finally(function () {
+            var newChild = child = childProcess.fork('runner.js');
+
+            child.on('exit', function (exitCode) {
                 console.log('Runner exited with code ' + exitCode);
-                child = 0;
+
+                if (child === newChild) {
+                    child = 0;
+                }
             });
 
-            res.sendStatus(204);
+            sendMessage(child, { type: 'start', body: { capabilities: req.body } })
+                .then(function () {
+                    res.sendStatus(204);
+                    console.log('Runner started');
+                })
+                .catch(function (err) {
+                    child.kill();
+                    child = 0;
 
-            console.log('Runner started');
+                    console.log('Failed to start runner due to "' + err.message + '"');
+                    res.status(500).json({ error: err }).end();
+                });
         });
     }).post('/step', function (req, res) {
-        if (child) {
-            var timeout = setTimeout(function () {
-                child && child.kill();
-                res.sendStatus(500);
-                console.log('Timed out while sending step');
-            }, 5000);
+        if (!child) {
+            res.status(404).json({ error: 'no active session' });
+            return console.log('Cannot send step to runner, no active session found');
+        }
 
-            child.once('message', function (message) {
-                clearTimeout(timeout);
-                res.json(JSON.parse(message)).end();
-                console.log('Running step "' + req.body.name + '"');
-            }).send(JSON.stringify({ type: 'step', body: req.body }));
-        } else {
-            res.status(404).json({ error: 'no active session' });
-            console.log('Cannot send step to runner, no active session found');
-        }
-    }).post('/stop', function (req, res) {
-        if (child) {
-            killRunner(child, function () {
-                res.sendStatus(204);
-                console.log('Runner stopped');
+        var stepName = req.body.name;
+
+        console.log('Running step "' + stepName + '"');
+
+        sendMessage(child, { type: 'step', body: req.body })
+            .then(function (result) {
+                res.json(result).end();
+            })
+            .catch(function (err) {
+                if (err.message === 'timeout') {
+                    console.log('Timed out while sending step');
+                    res.sendStatus(500);
+                } else {
+                    console.warn('Failed to run step "' + stepName + '" due to "' + err + '"');
+                    res.status(500).json({ error: err }).end();
+                }
             });
-        } else {
+    }).post('/stop', function (req, res) {
+        if (!child) {
             res.status(404).json({ error: 'no active session' });
-            console.log('Cannot stop runner, no active session found');
+            return console.log('Cannot stop runner, no active session found');
         }
+
+        stopRunner(child).finally(function () {
+            res.sendStatus(204);
+            console.log('Runner stopped');
+        });
     }).listen(port, function () {
         console.log('WebDriverIO Runner now listening on port ' + port);
     });
@@ -68,15 +89,32 @@ function md5(str) {
     return hash.digest('hex');
 }
 
-function killRunner(child, callback) {
-    if (!child) { return callback(); }
+function stopRunner(child) {
+    if (child) {
+        console.log('Stopping runner');
 
-    var watchdog = setTimeout(function () {
-        child.kill();
-    }, 2000);
+        return sendMessage(child, { type: 'kill' });
+    } else {
+        return Q();
+    }
+}
 
-    child.on('exit', function () {
-        clearTimeout(watchdog);
-        callback();
-    }).send(JSON.stringify({ type: 'kill' }));
+function sendMessage(child, message) {
+    var deferred = Q.defer(),
+        timeout = setTimeout(function () {
+            child && child.kill();
+            deferred.reject(new Error('timeout'));
+        }, 5000);
+
+    child.once('message', function (message) {
+        clearTimeout(timeout);
+
+        message = JSON.parse(message);
+
+        var error = message && message.error;
+
+        error ? deferred.reject(new Error(error.message)) : deferred.resolve(message);
+    }).send(JSON.stringify(message));
+
+    return deferred.promise;
 }

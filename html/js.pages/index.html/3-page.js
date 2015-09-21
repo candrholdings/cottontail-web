@@ -3,6 +3,7 @@ var Page = local.Page = React.createClass({
         window.App.Mixins.StateFrom(store, {
             active: store.getActive,
             busy: store.getBusy,
+            capabilitiesText: store.getCapabilitiesText,
             steps: store.getSteps
         })
     ],
@@ -43,10 +44,13 @@ var Page = local.Page = React.createClass({
         });
     },
     onStartClick: function () {
-        Actions.start();
+        Actions.start(JSON.parse(this.state.capabilitiesText));
     },
     onStopClick: function () {
         Actions.stop();
+    },
+    onCapabilitiesChange: function (evt) {
+        Actions.setCapabilitiesText(evt.target.value);
     },
     render: function () {
         var that = this,
@@ -58,6 +62,12 @@ var Page = local.Page = React.createClass({
                     <div className="col-md-12">
                         <button className="btn" disabled={state.active || state.busy} onClick={that.onStartClick}>Start <span className="glyphicon glyphicon-play" /></button>
                         <button className="btn" disabled={!state.active || state.busy} onClick={that.onStopClick}>Stop <span className="glyphicon glyphicon-stop" /></button>
+                        <div className="hide">
+                            <h1>Capabilities</h1>
+                            <textarea className="capabilities"
+                                      onChange={that.onCapabilitiesChange}
+                                      value={state.capabilitiesText} />
+                        </div>
                         <UI.StepList onStepChange={that.onStepChange}
                                      onStepMoveDown={that.onStepMoveDown}
                                      onStepMoveUp={that.onStepMoveUp}
@@ -74,7 +84,7 @@ var Page = local.Page = React.createClass({
                 <br />
                 <div className="row">
                     <div className="col-md-12">
-                        <UI.CodeView steps={state.steps} />
+                        <UI.CodeView capabilitiesText={state.capabilitiesText} steps={state.steps} />
                     </div>
                 </div>
             </div>

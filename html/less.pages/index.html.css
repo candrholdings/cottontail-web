@@ -1,3 +1,9 @@
 #root {
     margin: 1em;
+
+    textarea.capabilities {
+        font-family: Consolas, 'Courier New', monospace;
+        height: 15em;
+        width: 100%;
+    }
 }

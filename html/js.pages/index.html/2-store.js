@@ -4,26 +4,34 @@ var store = window.App.Page.store = Reflux.createStore({
         window.App.Mixins.StoreProperties({
             active: false,
             busy: false,
+            capabilitiesText: JSON.stringify({
+                desiredCapabilities: {
+                    browserName: 'edge'
+                },
+                host: 'localhost',
+                port: 17556,
+                path: '/'
+            }, null, 2),
             steps: List()
         })
     ],
     init: function () {
-        Actions.addStep('remote', {
-            options: Map({
-                desiredCapabilities: Map({
-                    browserName: 'edge'
-                }),
-                host: 'localhost',
-                port: 17556,
-                path: '/'
-            })
-        });
+        // Actions.addStep('remote', {
+        //     options: Map({
+        //         desiredCapabilities: Map({
+        //             browserName: 'edge'
+        //         }),
+        //         host: 'localhost',
+        //         port: 17556,
+        //         path: '/'
+        //     })
+        // });
 
-        Actions.addStep('init');
+        // Actions.addStep('init');
         Actions.addStep('url', { url: 'http://www.google.com/' });
         Actions.addStep('pause', { milliseconds: 2000 });
         Actions.addStep('getTitle');
-        Actions.addStep('end');
+        // Actions.addStep('end');
     },
     onAddStep: function (commandName, args) {
         this._setSteps(this._steps.push(Map({
@@ -103,5 +111,8 @@ var store = window.App.Page.store = Reflux.createStore({
             result: null,
             status: 'fail'
         });
-    }
+    },
+    onSetCapabilities: function (newCapabilities) {
+        this._setCapabilities(newCapabilities);
+    },
 });
