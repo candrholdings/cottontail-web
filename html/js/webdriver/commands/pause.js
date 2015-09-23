@@ -8,7 +8,7 @@
         }],
         platforms: {
             webdriverio: function (parameters) {
-                return '.url(' + JSON.stringify(parameters.milliseconds) + ')';
+                return '.pause(' + JSON.stringify(parameters.milliseconds) + ')';
             },
             spec: function (parameters) {
                 var {milliseconds} = parameters;

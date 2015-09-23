@@ -36,7 +36,7 @@
                     description = specTemplate;
 
                     args && args.keySeq().forEach(name => {
-                        description = description.replace(new RegExp(':' + name), args.get(name));
+                        description = description.replace(new RegExp(':' + name, 'g'), args.get(name));
                     });
                 } else {
                     description = specTemplate.call(null, args.toJS());
