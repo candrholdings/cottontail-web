@@ -22,7 +22,13 @@ Actions.start.listen(function (capabilities) {
             body: JSON.stringify(capabilities)
         }
     ).then(res => {
-        Math.floor(res.status / 100) === 2 ? this.completed() : this.failed(res.body);
+        if (Math.floor(res.status / 100) === 2) {
+            this.completed();
+        } else {
+            res.json().then(err => {
+                this.failed(err.error);
+            }).catch(this.failed);
+        }
     }).catch(this.failed);
 });
 

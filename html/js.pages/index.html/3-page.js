@@ -5,6 +5,7 @@ var Page = local.Page = React.createClass({
             autoRun: store.getAutoRun,
             busy: store.getBusy,
             capabilitiesText: store.getCapabilitiesText,
+            error: store.getError,
             steps: store.getSteps
         })
     ],
@@ -59,14 +60,16 @@ var Page = local.Page = React.createClass({
     render: function () {
         var that = this,
             {state} = that,
-            {active, busy} = state;
+            {active, busy, error} = state;
 
         return (
-            <div className="container">
+            <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12">
                         <div className="button-bar">
-                            <button className="btn" disabled={active || busy} onClick={that.onStartClick}><span className="glyphicon glyphicon-plus" /> Create session</button>
+                            <UI.Popover animation={false} content={error} show={!!error} trigger="hover">
+                                <button className="btn" disabled={active || busy} onClick={that.onStartClick}><span className="glyphicon glyphicon-plus" /> Create session</button>
+                            </UI.Popover>
                             <button className="btn" disabled={!active || busy} onClick={that.onStopClick}><span className="glyphicon glyphicon-stop" /> Stop session</button>
                             <button className="btn" disabled={!active || busy} onClick={that.onRunAllClick}><span className="glyphicon glyphicon-play" /> Run all steps</button>
                         </div>

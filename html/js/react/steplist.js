@@ -49,7 +49,6 @@
                                 return (
                                     <li key={index}>
                                         <div className="index">
-                                            <span className="number">{index + 1}</span>
                                             <div className="buttons">
                                                 <button onClick={that.onStepMoveUp.bind(null, index)}
                                                         tabIndex={-1}>
@@ -60,6 +59,7 @@
                                                     <span className="glyphicon glyphicon-triangle-bottom" />
                                                 </button>
                                             </div>
+                                            <span className="number">{index + 1}</span>
                                         </div>
                                         <button className="play-button"
                                                 disabled={disabled}

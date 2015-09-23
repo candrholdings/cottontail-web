@@ -16,27 +16,41 @@
                 var commandName = step.get('commandName'),
                     args = step.get('args'),
                     command = window.App.WebDriver.Commands[commandName],
-                    {parameters} = command || {},
-                    line = ['    .', commandName, '('];
+                    {parameters, platforms} = command || {},
+                    codeTemplate = platforms && platforms.webdriverio;
 
-                line = line.concat((parameters || []).map((parameter, index) => {
-                    var name,
-                        type = 'string';
+                if (!codeTemplate) {
+                    lines.push('    <not supported>');
+                } else if (typeof codeTemplate === 'string') {
+                    var code = codeTemplate;
 
-                    if (typeof parameter === 'string') {
-                        name = parameter;
-                    } else {
-                        name = parameter.name;
-                        type = parameter.type;
-                    }
+                    args && args.keySeq().forEach(name => {
+                        code = code.replace(new RegExp(':' + name, 'g'), args.get(name));
+                    });
 
-                    var value = args.get(name);
+                    lines.push('    ' + code);
+                } else {
+                    lines.push('    ' + codeTemplate(args.toJS()));
+                }
 
-                    line.push((JSON.stringify(value, null, 4) || '').split('\n').map((l, i) => i ? '    ' + l : l).join('\n'));
-                }));
+                // line = line.concat((parameters || []).map((parameter, index) => {
+                //     var name,
+                //         type = 'string';
 
-                line.push(')');
-                lines.push(line.join(''));
+                //     if (typeof parameter === 'string') {
+                //         name = parameter;
+                //     } else {
+                //         name = parameter.name;
+                //         type = parameter.type;
+                //     }
+
+                //     var value = args.get(name);
+
+                //     line.push((JSON.stringify(value, null, 4) || '').split('\n').map((l, i) => i ? '    ' + l : l).join('\n'));
+                // }));
+
+                // line.push(')');
+                // lines.push(line.join(''));
             });
 
             lines.push('    .end();');

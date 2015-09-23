@@ -13,6 +13,7 @@ var store = window.App.Page.store = Reflux.createStore({
                 port: 17556,
                 path: '/'
             }, null, 2),
+            error: null,
             steps: List()
         })
     ],
@@ -62,23 +63,27 @@ var store = window.App.Page.store = Reflux.createStore({
     },
     onStart: function () {
         this._setBusy(true);
+        this._setError(null);
     },
     onStartCompleted: function () {
         this._setActive(true);
         this._setBusy(false);
     },
-    onStartFailed: function () {
+    onStartFailed: function (err) {
         this._setBusy(false);
+        this._setError(err);
     },
     onStop: function () {
         this._setBusy(true);
+        this._setError(null);
     },
     onStopCompleted: function () {
         this._setActive(false);
         this._setBusy(false);
     },
-    onStopFailed: function () {
+    onStopFailed: function (err) {
         this._setBusy(false);
+        this._setError(err);
     },
     _mergeStepByID: function (stepID, merge) {
         var steps = this._steps,
