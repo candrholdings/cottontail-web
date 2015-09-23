@@ -40,7 +40,7 @@ function main() {
                     child = 0;
 
                     console.log('Failed to start runner due to "' + err.message + '"');
-                    res.status(500).json({ error: err }).end();
+                    res.status(500).json({ error: err.message }).end();
                 });
         });
     }).post('/step', function (req, res) {
