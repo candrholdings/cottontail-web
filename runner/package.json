@@ -5,5 +5,11 @@
     "express": "^4.13.3",
     "q": "^1.4.1",
     "webdriverio": "^3.2.4"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "bin": {
+    "webdriver": "./app.js"
   }
 }
