@@ -1,7 +1,7 @@
 {
-  "name": "publishjs-boilerplate",
+  "name": "cottontail-web",
   "version": "0.0.1-dev",
-  "description": "Sample website with PublishJS",
+  "description": "Cottontail Web",
   "keywords": [
     "grunt",
     "gulp",
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "commander": "^2.8.1",
+    "express": "^4.13.3",
     "publishjs": "git:git@github.com:candrholdings/publishjs.git",
     "publishjs-assemble": "git:git@github.com:candrholdings/publishjs-assemble.git",
     "publishjs-cssmin": "git:git@github.com:candrholdings/publishjs-cssmin.git",
@@ -30,5 +31,8 @@
     "async": "^1.0.0",
     "async-linq": "^1.0.2",
     "vows": "^0.8.1"
+  },
+  "scripts": {
+    "build": "node ./publish.js"
   }
 }
