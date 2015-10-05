@@ -54,6 +54,15 @@
             });
 
             lines.push('    .end();');
+            lines.push('');
+            lines.push('/* COTTONTAIL JSON');
+            lines.push(JSON.stringify(props.steps.map(step => {
+                return {
+                    commandName: step.get('commandName'),
+                    args: step.get('args')
+                };
+            })));
+            lines.push('*/');
 
             return (
                 <div className="ui-codeview">
