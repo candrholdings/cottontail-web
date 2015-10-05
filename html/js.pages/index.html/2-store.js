@@ -7,10 +7,12 @@ var store = window.App.Page.store = Reflux.createStore({
             busy: false,
             capabilitiesText: JSON.stringify({
                 desiredCapabilities: {
-                    browserName: 'edge'
+                    // browserName: 'edge'
+                    browserName: 'chrome'
                 },
                 host: 'localhost',
-                port: 17556,
+                // port: 17556,
+                port: 9515,
                 path: '/'
             }, null, 2),
             error: null,
