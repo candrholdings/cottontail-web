@@ -6,6 +6,7 @@
     window.UI.ExpandingInput = React.createClass({
         propTypes: {
             onChange: PropTypes.func,
+            onKeyDown: PropTypes.func,
             placeholder: PropTypes.string,
             title: PropTypes.string,
             type: PropTypes.string,
@@ -19,6 +20,7 @@
                 <span className="ui-expandinginput">
                     <div>{props.value || props.placeholder}</div>
                     <input onChange={props.onChange}
+                           onKeyDown={props.onKeyDown}
                            placeholder={props.placeholder}
                            title={props.title}
                            type={props.type}

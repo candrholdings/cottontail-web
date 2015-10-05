@@ -7,7 +7,8 @@
         propTypes: {
             args: PropTypes.any,
             commandName: PropTypes.string,
-            onChange: PropTypes.func
+            onChange: PropTypes.func,
+            onExecute: PropTypes.func
         },
         onChange: function (name, type, evt) {
             var {props} = this,
@@ -21,6 +22,15 @@
             }
 
             handler && handler(args.set(name, value));
+        },
+        onKeyDown: function (evt) {
+            console.log(evt);
+
+            if (evt.keyCode === 13) {
+                var handler = this.props.onExecute;
+
+                handler && handler();
+            }
         },
         render: function () {
             var that = this,
@@ -71,16 +81,18 @@
                                         :
                                         type === 'number' ?
                                             <UI.ExpandingInput onChange={that.onChange.bind(null, name, type)}
+                                                               onKeyDown={that.onKeyDown}
                                                                placeholder={name}
                                                                title={name}
                                                                type="number"
                                                                value={value} />
                                         :
                                             <UI.ExpandingInput onChange={that.onChange.bind(null, name, type)}
-                                                                placeholder={name}
-                                                                title={name}
-                                                                type="text"
-                                                                value={value} />
+                                                               onKeyDown={that.onKeyDown}
+                                                               placeholder={name}
+                                                               title={name}
+                                                               type="text"
+                                                               value={value} />
                                     )];
                                 })
                             }

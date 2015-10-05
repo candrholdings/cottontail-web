@@ -70,7 +70,8 @@
                                         <div className="step">
                                             <UI.Step args={args}
                                                      commandName={commandName}
-                                                     onChange={that.onStepChange.bind(null, index)} />
+                                                     onChange={that.onStepChange.bind(null, index)}
+                                                     onExecute={that.onStepRun.bind(null, index)} />
                                         </div>
                                         {
                                             status === 'busy' ?
