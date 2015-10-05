@@ -8,7 +8,8 @@ var Actions = local.Actions = Reflux.createActions({
     setCapabilities: {},
     setStepArgs: { sync: true },
     start: { children: ['completed', 'failed'] },
-    stop: { children: ['completed', 'failed'] }
+    stop: { children: ['completed', 'failed'] },
+    loadSteps: {}
 });
 
 Actions.start.listen(function (capabilities) {

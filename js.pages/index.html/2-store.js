@@ -23,11 +23,28 @@ var store = window.App.Page.store = Reflux.createStore({
         Actions.addStep('url', { url: 'http://www.google.com/' });
         Actions.addStep('pause', { milliseconds: 500 });
         Actions.addStep('getTitle');
-        Actions.addStep('assertEqual', { expected: 'Google' });
+        // Actions.addStep('assertEqual', { expected: 'Google' });
+        Actions.addStep('setValue', { selector: '#lst-ib', values: 'Hello, World!' });
+        Actions.addStep('click', { selector: 'input[name="btnK"]' });
+    },
+    _generateID: function () {
+        return Date.now() + Math.random() + '';
+    },
+    onLoadSteps: function (json) {
+        this._setSteps(List(json.map(step => {
+            return Map({
+                id: this._generateID(),
+                commandName: step.commandName,
+                args: Immutable.fromJS(step.args),
+                error: '',
+                result: '',
+                status: ''
+            });
+        })));
     },
     onAddStep: function (commandName, args) {
         this._setSteps(this._steps.push(Map({
-            id: Date.now() + Math.random() + '',
+            id: this._generateID(),
             commandName: commandName,
             args: Map(args || {}),
             error: '',

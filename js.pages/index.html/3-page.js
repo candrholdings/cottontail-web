@@ -57,6 +57,19 @@ var Page = local.Page = React.createClass({
     onCapabilitiesChange: function (evt) {
         Actions.setCapabilitiesText(evt.target.value);
     },
+    onLoadStepsClick: function () {
+        var json = prompt('Please paste JSON text here');
+
+        if (!json) { return; }
+
+        try {
+            json = JSON.parse(json);
+        } catch (ex) {
+            return alert('Invalid JSON text');
+        }
+
+        Actions.loadSteps(json);
+    },
     render: function () {
         var that = this,
             {state} = that,
@@ -72,6 +85,7 @@ var Page = local.Page = React.createClass({
                             </UI.Popover>
                             <button className="btn" disabled={!active || busy} onClick={that.onStopClick}><span className="glyphicon glyphicon-stop" /> Stop session</button>
                             <button className="btn" disabled={!active || busy} onClick={that.onRunAllClick}><span className="glyphicon glyphicon-play" /> Run all steps</button>
+                            <button className="btn" disabled={busy} onClick={that.onLoadStepsClick}><span className="glyphicon glyphicon-open" /> Load steps</button>
                         </div>
                         <div className="hide">
                             <h1>Capabilities</h1>
