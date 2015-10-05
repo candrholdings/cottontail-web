@@ -17,15 +17,15 @@
   "dependencies": {
     "commander": "^2.8.1",
     "express": "^4.13.3",
-    "publishjs": "candrholdings/publishjs",
-    "publishjs-assemble": "candrholdings/publishjs-assemble",
-    "publishjs-cssmin": "candrholdings/publishjs-cssmin",
-    "publishjs-jshint": "candrholdings/publishjs-jshint",
-    "publishjs-jsx": "candrholdings/publishjs-jsx",
-    "publishjs-less": "candrholdings/publishjs-less",
-    "publishjs-livereload": "candrholdings/publishjs-livereload",
-    "publishjs-pngout": "candrholdings/publishjs-pngout",
-    "publishjs-uglify": "candrholdings/publishjs-uglify"
+    "publishjs": "0.0.1-dev",
+    "publishjs-assemble": "0.0.1-dev",
+    "publishjs-cssmin": "0.0.1-dev",
+    "publishjs-jshint": "0.0.1-dev",
+    "publishjs-jsx": "0.0.1-dev",
+    "publishjs-less": "0.0.1-dev",
+    "publishjs-livereload": "0.0.1-dev",
+    "publishjs-pngout": "0.0.1-dev",
+    "publishjs-uglify": "0.0.1-dev"
   },
   "devDependencies": {
     "async": "^1.0.0",
@@ -33,6 +33,6 @@
     "vows": "^0.8.1"
   },
   "scripts": {
-    "build": "node ./publish.js"
+    "postinstall": "node ./publish.js --clean"
   }
 }
