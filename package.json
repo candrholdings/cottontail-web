@@ -3,9 +3,10 @@
   "version": "0.0.1-dev",
   "description": "Cottontail Web",
   "keywords": [
-    "grunt",
-    "gulp",
-    "publishjs"
+    "cottontail",
+    "testing",
+    "webdriver",
+    "webdriverio"
   ],
   "license": "MIT",
   "email": "william.wong@candrholdings.com",
@@ -17,15 +18,15 @@
   "dependencies": {
     "commander": "^2.8.1",
     "express": "^4.13.3",
-    "publishjs": "0.0.1-dev",
-    "publishjs-assemble": "0.0.1-dev",
-    "publishjs-cssmin": "0.0.1-dev",
-    "publishjs-jshint": "0.0.1-dev",
-    "publishjs-jsx": "0.0.1-dev",
-    "publishjs-less": "0.0.1-dev",
-    "publishjs-livereload": "0.0.1-dev",
-    "publishjs-pngout": "0.0.1-dev",
-    "publishjs-uglify": "0.0.1-dev"
+    "publishjs": "^0.0.2-dev",
+    "publishjs-assemble": "^0.0.2-dev",
+    "publishjs-cssmin": "^0.0.2-dev",
+    "publishjs-jshint": "^0.0.2-dev",
+    "publishjs-jsx": "^0.0.2-dev",
+    "publishjs-less": "^0.0.2-dev",
+    "publishjs-livereload": "^0.0.2-dev",
+    "publishjs-pngout": "^0.0.2-dev",
+    "publishjs-uglify": "^0.0.2-dev"
   },
   "devDependencies": {
     "async": "^1.0.0",
