@@ -17,12 +17,6 @@ export var store = Reflux.createStore({
         })
     ],
     init: function () {
-        // Actions.addStep('url', { url: 'http://www.google.com/' });
-        // Actions.addStep('pause', { milliseconds: 500 });
-        // Actions.addStep('getTitle');
-        // // Actions.addStep('assertEqual', { expected: 'Google' });
-        // Actions.addStep('setValue', { selector: '#lst-ib', values: 'Hello, World!' });
-        // Actions.addStep('click', { selector: 'input[name="btnK"]' });
         Actions.loadSteps([{"commandName":"url","args":{"url":"http://www.google.com/"}},{"commandName":"getTitle","args":{}},{"commandName":"setValue","args":{"selector":"#lst-ib","values":"Hello, World!"}},{"commandName":"click","args":{"selector":"input[class=\"lsb\"]"}},{"commandName":"waitForPageLoad","args":{"ms":"500"}},{"commandName":"waitForExist","args":{"selector":"h3.r:first-child a","ms":"2000"}},{"commandName":"click","args":{"selector":"h3.r:first-child a"}},{"commandName":"waitForPageLoad","args":{"ms":""}}]);
     },
     _generateID: function () {
