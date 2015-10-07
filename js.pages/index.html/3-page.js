@@ -8,8 +8,34 @@ export var Page = React.createClass({
             capabilities: store.getCapabilities,
             error: store.getError,
             steps: store.getSteps
-        })
+        }),
+        Reflux.listenTo(store, 'onStoreChange')
     ],
+    getInitialState: function () {
+        return {
+            generatedCode: this.generateCode()
+        };
+    },
+    onStoreChange: function (type) {
+        if (type === 'browser' || type === 'capabilities' || type === 'steps') {
+            var that = this,
+                {state} = that,
+                {generatedCodeURL} = state;
+
+            generatedCodeURL && window.URL.revokeObjectURL(generatedCodeURL);
+
+            var generatedCode = this.generateCode();
+
+            if (generatedCode) {
+                this.setState({ generatedCodeURL: window.URL.createObjectURL(new Blob([generatedCode], { type: 'application/octet-stream' })) });
+            } else {
+                this.setState({ generatedCodeURL: null });
+            }
+        }
+    },
+    generateCode: function () {
+        return Formatters.javascript(this.getCapabilities(), this.state.steps);
+    },
     getInitialState: function () {
         return {
             editing: {
@@ -76,7 +102,8 @@ export var Page = React.createClass({
     render: function () {
         var that = this,
             {state} = that,
-            {active, browser, busy, error} = state;
+            {active, browser, busy, error, generatedCodeURL} = state,
+            filename = 'cottontail-' + Date.now() + '.js';
 
         return (
             <div className="container-fluid">
@@ -89,15 +116,22 @@ export var Page = React.createClass({
                             <button className="btn" disabled={!active || busy} onClick={that.onStopClick}><span className="glyphicon glyphicon-stop" /> Stop session</button>
                             <button className="btn" disabled={!active || busy} onClick={that.onRunAllClick}><span className="glyphicon glyphicon-play" /> Run all steps</button>
                             <button className="btn" disabled={busy} onClick={that.onLoadStepsClick}><span className="glyphicon glyphicon-open" /> Load steps</button>
-                            <button className={classNames({btn: 1, 'btn-success': browser === 'chrome'})}
-                                    disabled={active || busy}
-                                    onClick={() => Actions.setBrowser('chrome')}>Chrome</button>
-                            <button className={classNames({btn: 1, 'btn-success': browser === 'edge'})}
-                                    disabled={active || busy}
-                                    onClick={() => Actions.setBrowser('edge')}>Edge</button>
-                            <button className={classNames({btn: 1, 'btn-success': browser === 'firefox'})}
-                                    disabled={active || busy}
-                                    onClick={() => Actions.setBrowser('firefox')}>Firefox</button>
+                            <a className={classNames({btn: 1, 'btn-default': 1, disabled: !generatedCodeURL})} 
+                               download={filename} 
+                               href={generatedCodeURL}>
+                                <span className="glyphicon glyphicon-save" /> Download
+                            </a>
+                            <div className="btn-group pull-right" role="group">
+                                <button className={classNames({btn: 1, 'btn-success': browser === 'chrome'})}
+                                        disabled={active || busy}
+                                        onClick={() => Actions.setBrowser('chrome')}>Chrome</button>
+                                <button className={classNames({btn: 1, 'btn-success': browser === 'edge'})}
+                                        disabled={active || busy}
+                                        onClick={() => Actions.setBrowser('edge')}>Edge</button>
+                                <button className={classNames({btn: 1, 'btn-success': browser === 'firefox'})}
+                                        disabled={active || busy}
+                                        onClick={() => Actions.setBrowser('firefox')}>Firefox</button>
+                            </div>
                         </div>
                         <StepList disabled={!active || busy}
                                      onStepChange={that.onStepChange}

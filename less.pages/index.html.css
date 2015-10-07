@@ -4,6 +4,7 @@
     .button-bar {
         display: inline-block;
 
+        > a.btn,
         > button,
         > .bs-popover {
             margin-right: 10px;

@@ -1,4 +1,4 @@
 var {React} = window,
     {PropTypes} = React;
 
-import {Commands} from 'webdriver';
+import {Commands, Formatters} from 'webdriver';
