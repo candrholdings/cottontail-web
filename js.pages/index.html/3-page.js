@@ -1,6 +1,7 @@
 var UI = window.UI;
 
 import {default as StateFrom} from 'statefrom';
+import {CommandList, CodeView, Popover, StepList} from 'ui';
 
 export var Page = React.createClass({
     mixins: [
@@ -87,9 +88,9 @@ export var Page = React.createClass({
                 <div className="row">
                     <div className="col-md-12">
                         <div className="button-bar">
-                            <UI.Popover animation={false} content={error} show={!!error} trigger="hover">
+                            <Popover animation={false} content={error} show={!!error} trigger="hover">
                                 <button className="btn" disabled={active || busy} onClick={that.onStartClick}><span className="glyphicon glyphicon-plus" /> Create session</button>
-                            </UI.Popover>
+                            </Popover>
                             <button className="btn" disabled={!active || busy} onClick={that.onStopClick}><span className="glyphicon glyphicon-stop" /> Stop session</button>
                             <button className="btn" disabled={!active || busy} onClick={that.onRunAllClick}><span className="glyphicon glyphicon-play" /> Run all steps</button>
                             <button className="btn" disabled={busy} onClick={that.onLoadStepsClick}><span className="glyphicon glyphicon-open" /> Load steps</button>
@@ -103,7 +104,7 @@ export var Page = React.createClass({
                                     disabled={active || busy}
                                     onClick={() => Actions.setBrowser('firefox')}>Firefox</button>
                         </div>
-                        <UI.StepList disabled={!active || busy}
+                        <StepList disabled={!active || busy}
                                      onStepChange={that.onStepChange}
                                      onStepMoveDown={that.onStepMoveDown}
                                      onStepMoveUp={that.onStepMoveUp}
@@ -114,13 +115,13 @@ export var Page = React.createClass({
                 </div>
                 <div className="row">
                     <div className="col-md-12">
-                        <UI.CommandList onCommandClick={that.onCommandClick} />
+                        <CommandList onCommandClick={that.onCommandClick} />
                     </div>
                 </div>
                 <br />
                 <div className="row">
                     <div className="col-md-12">
-                        <UI.CodeView capabilities={that.getCapabilities()} steps={state.steps} />
+                        <CodeView capabilities={that.getCapabilities()} steps={state.steps} />
                     </div>
                 </div>
             </div>

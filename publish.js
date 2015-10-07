@@ -99,6 +99,17 @@
                         .uglify()
                         .save('js/index.html.js')
                         .run(callback);
+                },
+                'js.umd': function (pipe, callback) {
+                    pipe.from([
+                            pipe.from('js.umd/ui/')
+                                .merge('ui.js')
+                                .jsx({ blacklist: ['strict'], modules: 'umd' })
+                        ])
+                        .merge()
+                        .uglify()
+                        .save('js/umd.js')
+                        .run(callback);
                 }
             },
             watch: options.loop
