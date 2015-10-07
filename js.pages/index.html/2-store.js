@@ -1,4 +1,4 @@
-import {default as StoreProperties} from 'storeproperties';
+import {StoreProperties} from 'util';
 
 var Immutable = window.Immutable,
     {List, Map} = Immutable;

@@ -1,4 +1,4 @@
-export default function StateFrom(store, eventHandlers) {
+export var StateFrom = function StateFrom(store, eventHandlers) {
     // Full eventHandlers supported:
     // {
     //     lastModified: {

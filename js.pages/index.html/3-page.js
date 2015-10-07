@@ -1,6 +1,4 @@
-var UI = window.UI;
-
-import {default as StateFrom} from 'statefrom';
+import {StateFrom} from 'util';
 import {CommandList, CodeView, Popover, StepList} from 'ui';
 
 export var Page = React.createClass({

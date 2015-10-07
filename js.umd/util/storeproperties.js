@@ -1,4 +1,4 @@
-export default function StoreProperties(properties) {
+export var StoreProperties = function StoreProperties(properties) {
     var mixin = {},
         propertyNames = Object.getOwnPropertyNames(properties);
 

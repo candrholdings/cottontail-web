@@ -104,7 +104,10 @@
                     pipe.from([
                             pipe.from('js.umd/ui/')
                                 .merge('ui.js')
-                                .jsx({ blacklist: ['strict'], modules: 'umd' })
+                                .jsx({ modules: 'umd' }),
+                            pipe.from('js.umd/util')
+                                .merge('util.js')
+                                .jsx({ modules: 'umd' })
                         ])
                         .merge()
                         .uglify()

@@ -1,5 +1,3 @@
-'use strict';
-
 var {React} = window,
     {PropTypes} = React,
     propsToCopy = ['animation', 'content', 'title', 'trigger'];
