@@ -1,6 +1,4 @@
-var {React} = window,
-    {PropTypes} = React,
-    propsToCopy = ['animation', 'content', 'title', 'trigger'];
+var propsToCopy = ['animation', 'content', 'title', 'trigger'];
 
 export var Popover = React.createClass({
     propTypes: {

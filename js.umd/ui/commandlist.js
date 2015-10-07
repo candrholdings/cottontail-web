@@ -1,6 +1,3 @@
-var {React} = window,
-    {PropTypes} = React;
-
 export var CommandList = React.createClass({
     props: {
         onCommandClick: PropTypes.func
@@ -12,8 +9,7 @@ export var CommandList = React.createClass({
     },
     render: function () {
         var that = this,
-            {props} = that,
-            Commands = window.App.WebDriver.Commands;
+            {props} = that;
 
         return (
             <ul className="ui-commandlist">

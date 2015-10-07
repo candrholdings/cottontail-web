@@ -1,6 +1,3 @@
-var {React} = window,
-    {PropTypes} = React;
-
 export var StepList = React.createClass({
     onStepChange: function (stepIndex, newArgs) {
         var handler = this.props.onStepChange;
@@ -42,7 +39,7 @@ export var StepList = React.createClass({
                                 error = step.get('error'),
                                 result = step.get('result'),
                                 status = step.get('status'),
-                                command = window.App.WebDriver.Commands[commandName];
+                                command = Commands[commandName];
 
                             return (
                                 <li key={index}>

@@ -1,6 +1,3 @@
-var {React} = window,
-    {PropTypes} = React;
-
 export var ExpandingInput = React.createClass({
     propTypes: {
         onChange: PropTypes.func,

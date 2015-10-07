@@ -1,6 +1,3 @@
-var {React} = window,
-    {PropTypes} = React;
-
 export var Step = React.createClass({
     propTypes: {
         args: PropTypes.any,
@@ -32,7 +29,7 @@ export var Step = React.createClass({
         var that = this,
             {props} = that,
             {args, commandName} = props,
-            command = window.App.WebDriver.Commands[commandName],
+            command = Commands[commandName],
             {parameters, platforms} = command || {},
             {spec: specTemplate} = platforms || {},
             description;

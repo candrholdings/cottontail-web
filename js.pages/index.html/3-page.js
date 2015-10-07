@@ -1,5 +1,6 @@
 import {StateFrom} from 'util';
 import {CommandList, CodeView, Popover, StepList} from 'ui';
+import {Capabilities} from 'webdriver';
 
 export var Page = React.createClass({
     mixins: [
@@ -52,7 +53,7 @@ export var Page = React.createClass({
     getCapabilities: function () {
         var {state} = this;
 
-        return window.App.WebDriver.Capabilities[state.browser] || state.capabilities;
+        return Capabilities[state.browser] || state.capabilities;
     },
     onStartClick: function () {
         Actions.start(this.getCapabilities());

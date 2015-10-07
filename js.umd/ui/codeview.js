@@ -1,6 +1,3 @@
-var {React} = window,
-    {PropTypes} = React;
-
 export var CodeView = React.createClass({
     propTypes: {
         capabilities: PropTypes.any
@@ -14,7 +11,7 @@ export var CodeView = React.createClass({
         props.steps.map((step, index) => {
             var commandName = step.get('commandName'),
                 args = step.get('args'),
-                command = window.App.WebDriver.Commands[commandName],
+                command = Commands[commandName],
                 {parameters, platforms} = command || {},
                 codeTemplate = platforms && platforms.webdriverio;
 
