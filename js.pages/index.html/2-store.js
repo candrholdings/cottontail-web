@@ -131,7 +131,7 @@ export var store = Reflux.createStore({
 
             if (nextStep) {
                 var commandName = nextStep.get('commandName'),
-                    command = window.App.WebDriver.Commands[commandName];
+                    command = Commands[commandName];
 
                 Actions.runStep({
                     id: nextStep.get('id'),
@@ -168,7 +168,7 @@ export var store = Reflux.createStore({
 
             if (nextStep) {
                 var commandName = nextStep.get('commandName'),
-                    command = window.App.WebDriver.Commands[commandName];
+                    command = Commands[commandName];
 
                 Actions.runStep({
                     id: nextStep.get('id'),

@@ -1,7 +1,3 @@
-import {StateFrom} from 'util';
-import {CommandList, CodeView, Popover, StepList} from 'ui';
-import {Capabilities} from 'webdriver';
-
 export var Page = React.createClass({
     mixins: [
         StateFrom(store, {
@@ -40,7 +36,7 @@ export var Page = React.createClass({
     onStepRun: function (stepIndex) {
         var step = this.state.steps.get(stepIndex),
             commandName = step.get('commandName'),
-            command = window.App.WebDriver.Commands[commandName];
+            command = Commands[commandName];
 
         Actions.runStep({
             id: step.get('id'),

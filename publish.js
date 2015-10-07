@@ -93,13 +93,13 @@
                 },
                 'js': function (pipe, callback) {
                     pipe.from([
-                            pipe.from('js.umd/webdriver/')
+                            pipe.from('js/webdriver/')
                                 .merge('1-webdriver.js')
                                 .jsx({ modules: 'umd' }),
-                            pipe.from('js.umd/util/')
+                            pipe.from('js/util/')
                                 .merge('2-util.js')
                                 .jsx({ modules: 'umd' }),
-                            pipe.from('js.umd/ui/')
+                            pipe.from('js/ui/')
                                 .merge('3-ui.js')
                                 .jsx({ modules: 'umd' })
                         ])
