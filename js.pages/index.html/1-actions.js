@@ -1,4 +1,4 @@
-var Actions = local.Actions = Reflux.createActions({
+export var Actions = window.Reflux.createActions({
     addStep: {},
     loadSteps: {},
     moveStepDown: {},

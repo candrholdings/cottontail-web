@@ -1,6 +1,10 @@
-var Page = local.Page = React.createClass({
+var UI = window.UI;
+
+import {default as StateFrom} from 'statefrom';
+
+export var Page = React.createClass({
     mixins: [
-        window.App.Mixins.StateFrom(store, {
+        StateFrom(store, {
             active: store.getActive,
             autoRun: store.getAutoRun,
             browser: store.getBrowser,

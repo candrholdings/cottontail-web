@@ -1,7 +1,12 @@
-var store = window.App.Page.store = Reflux.createStore({
+import {default as StoreProperties} from 'storeproperties';
+
+var Immutable = window.Immutable,
+    {List, Map} = Immutable;
+
+export var store = Reflux.createStore({
     listenables: [Actions],
     mixins: [
-        window.App.Mixins.StoreProperties({
+        StoreProperties({
             active: false,
             autoRun: false,
             browser: 'chrome',
