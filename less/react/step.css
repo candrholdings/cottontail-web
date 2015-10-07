@@ -15,8 +15,8 @@
             outline: 0;
 
             &:focus {
-                background-color: #999;
-                color: White;
+                background-color: #EEE;
+                // color: White;
             }
         }
 
