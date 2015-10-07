@@ -77,15 +77,6 @@
                         .save('./')
                         .run(callback);
                 },
-                js: function (pipe, callback) {
-                    pipe.from('js/')
-                        .jsx({ blacklist: ['strict'], modules: 'umd' })
-                        .jshint({ expr: true, browser: true, newcap: false })
-                        .merge()
-                        .uglify()
-                        .save('js/all.js')
-                        .run(callback);
-                },
                 'js.lib': function (pipe, callback) {
                     pipe.from(options.nomin ? 'js.lib/' : 'js.lib.min/')
                         .merge('lib.js')
@@ -100,7 +91,7 @@
                         .save('js/index.html.js')
                         .run(callback);
                 },
-                'js.umd': function (pipe, callback) {
+                'js': function (pipe, callback) {
                     pipe.from([
                             pipe.from('js.umd/webdriver/')
                                 .merge('1-webdriver.js')
