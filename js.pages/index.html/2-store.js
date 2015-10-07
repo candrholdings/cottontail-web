@@ -4,17 +4,9 @@ var store = window.App.Page.store = Reflux.createStore({
         window.App.Mixins.StoreProperties({
             active: false,
             autoRun: false,
+            browser: 'chrome',
             busy: false,
-            capabilitiesText: JSON.stringify({
-                desiredCapabilities: {
-                    // browserName: 'edge'
-                    browserName: 'chrome'
-                },
-                host: 'localhost',
-                // port: 17556,
-                port: 9515,
-                path: '/'
-            }, null, 2),
+            capabilities: null,
             error: null,
             steps: List()
         })
@@ -157,8 +149,11 @@ var store = window.App.Page.store = Reflux.createStore({
             status: 'fail'
         });
     },
+    onSetBrowser: function (newBrowser) {
+        this._setBrowser(newBrowser)._setCapabilities(null);
+    },
     onSetCapabilities: function (newCapabilities) {
-        this._setCapabilities(newCapabilities);
+        this._setBrowser('custom')._setCapabilities(newCapabilities);
     },
     onSetAutoRun: function (newAutoRun) {
         if (this._autoRun !== newAutoRun) {

@@ -3,8 +3,9 @@ var Page = local.Page = React.createClass({
         window.App.Mixins.StateFrom(store, {
             active: store.getActive,
             autoRun: store.getAutoRun,
+            browser: store.getBrowser,
             busy: store.getBusy,
-            capabilitiesText: store.getCapabilitiesText,
+            capabilities: store.getCapabilities,
             error: store.getError,
             steps: store.getSteps
         })
@@ -45,17 +46,19 @@ var Page = local.Page = React.createClass({
             }) : [],
         });
     },
+    getCapabilities: function () {
+        var {state} = this;
+
+        return window.App.WebDriver.Capabilities[state.browser] || state.capabilities;
+    },
     onStartClick: function () {
-        Actions.start(JSON.parse(this.state.capabilitiesText));
+        Actions.start(this.getCapabilities());
     },
     onStopClick: function () {
         Actions.stop();
     },
     onRunAllClick: function () {
         Actions.setAutoRun(!store.autoRun);
-    },
-    onCapabilitiesChange: function (evt) {
-        Actions.setCapabilitiesText(evt.target.value);
     },
     onLoadStepsClick: function () {
         var json = prompt('Please paste JSON text here');
@@ -73,7 +76,7 @@ var Page = local.Page = React.createClass({
     render: function () {
         var that = this,
             {state} = that,
-            {active, busy, error} = state;
+            {active, browser, busy, error} = state;
 
         return (
             <div className="container-fluid">
@@ -86,12 +89,15 @@ var Page = local.Page = React.createClass({
                             <button className="btn" disabled={!active || busy} onClick={that.onStopClick}><span className="glyphicon glyphicon-stop" /> Stop session</button>
                             <button className="btn" disabled={!active || busy} onClick={that.onRunAllClick}><span className="glyphicon glyphicon-play" /> Run all steps</button>
                             <button className="btn" disabled={busy} onClick={that.onLoadStepsClick}><span className="glyphicon glyphicon-open" /> Load steps</button>
-                        </div>
-                        <div className="hide">
-                            <h1>Capabilities</h1>
-                            <textarea className="capabilities"
-                                      onChange={that.onCapabilitiesChange}
-                                      value={state.capabilitiesText} />
+                            <button className={classNames({btn: 1, 'btn-success': browser === 'chrome'})}
+                                    disabled={active || busy}
+                                    onClick={() => Actions.setBrowser('chrome')}>Chrome</button>
+                            <button className={classNames({btn: 1, 'btn-success': browser === 'edge'})}
+                                    disabled={active || busy}
+                                    onClick={() => Actions.setBrowser('edge')}>Edge</button>
+                            <button className={classNames({btn: 1, 'btn-success': browser === 'firefox'})}
+                                    disabled={active || busy}
+                                    onClick={() => Actions.setBrowser('firefox')}>Firefox</button>
                         </div>
                         <UI.StepList disabled={!active || busy}
                                      onStepChange={that.onStepChange}
@@ -110,7 +116,7 @@ var Page = local.Page = React.createClass({
                 <br />
                 <div className="row">
                     <div className="col-md-12">
-                        <UI.CodeView capabilitiesText={state.capabilitiesText} steps={state.steps} />
+                        <UI.CodeView capabilities={that.getCapabilities()} steps={state.steps} />
                     </div>
                 </div>
             </div>

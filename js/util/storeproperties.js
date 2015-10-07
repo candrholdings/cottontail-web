@@ -18,6 +18,8 @@
                     this[privateAccessorName] = next;
                     this.trigger(name);
                 }
+
+                return this;
             };
         });
 

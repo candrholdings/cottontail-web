@@ -5,12 +5,13 @@
 
     window.UI.CodeView = React.createClass({
         propTypes: {
-            capabilitiesText: PropTypes.any
+            capabilities: PropTypes.any
         },
         render: function () {
             var that = this,
                 {props} = that,
-                lines = ['require("webdriverio")', '    .remote(' + props.capabilitiesText.split('\n').map((l, i) => i ? '    ' + l : l).join('\n') + ')', '    .init()'];
+                capabilitiesText = JSON.stringify(props.capabilities || {}, null, 4),
+                lines = ['require("webdriverio")', '    .remote(' + capabilitiesText.split('\n').map((l, i) => i ? '    ' + l : l).join('\n') + ')', '    .init()'];
 
             props.steps.map((step, index) => {
                 var commandName = step.get('commandName'),
